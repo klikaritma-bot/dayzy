@@ -30,38 +30,25 @@
 
         /* --- DARK MODE VARIABLES --- */
         body.dark-mode {
-            --bg-color: #2c2c38; /* Soft Dark Purple */
+            --bg-color: #2c2c38;
             --card-bg: rgba(60, 60, 75, 0.85);
-            --text-main: #f8f9fa; /* Teks utama putih terang */
-            --text-muted: #dcdcdc; /* Teks muted abu-abu terang */
+            --text-main: #f8f9fa;
+            --text-muted: #dcdcdc;
             --nav-bg: rgba(45, 45, 60, 0.95);
         }
 
-        /* Perbaikan Placeholder untuk Dark Mode (Di-Forced) */
-        body.dark-mode ::placeholder {
-            color: #ffffff !important;
-            opacity: 1 !important;
-        }
-        
-        body.dark-mode ::-webkit-input-placeholder {
-            color: #ffffff !important;
-            opacity: 1 !important;
-        }
-
-        body.dark-mode :-moz-placeholder {
+        /* PERBAIKAN PLACEHOLDER DARK MODE (SUPER FORCED) */
+        body.dark-mode input::placeholder, 
+        body.dark-mode textarea::placeholder,
+        body.dark-mode .form-control::placeholder {
             color: #ffffff !important;
             opacity: 1 !important;
         }
 
-        body.dark-mode ::-moz-placeholder {
-            color: #ffffff !important;
-            opacity: 1 !important;
-        }
-
-        body.dark-mode :-ms-input-placeholder {
-            color: #ffffff !important;
-            opacity: 1 !important;
-        }
+        body.dark-mode ::-webkit-input-placeholder { color: #ffffff !important; opacity: 1 !important; }
+        body.dark-mode :-moz-placeholder { color: #ffffff !important; opacity: 1 !important; }
+        body.dark-mode ::-moz-placeholder { color: #ffffff !important; opacity: 1 !important; }
+        body.dark-mode :-ms-input-placeholder { color: #ffffff !important; opacity: 1 !important; }
 
         body.dark-mode .form-control, body.dark-mode .input-group-text {
             background: rgba(255, 255, 255, 0.1) !important;
@@ -239,7 +226,9 @@
             <button class="btn-cute w-100" onclick="doLogin()">
                 Buka Jurnalku 💖
             </button>
-            
+            <p class="mt-3 text-muted" style="font-size: 0.75rem;">
+    Dengan masuk, Anda setuju dengan <a href="#" onclick="showPolicy()" class="text-primary text-decoration-none">Kebijakan Privasi kami</a>.
+</p>
             <div class="mt-4">
                 <small class="text-muted d-block" style="font-size: 0.7rem; opacity: 0.8;">Developed by Arielyn Gracevania</small>
                 <small class="text-muted d-block" style="font-size: 0.7rem; opacity: 0.8;">WA: 0831-3062-1730</small>
@@ -423,6 +412,16 @@
                         </button>
                     </div>
                 </div>
+            <div class="glass-card">
+    <div class="list-group list-group-flush bg-transparent">
+        
+        <!-- Tambahkan Baris ini -->
+        <button class="list-group-item list-group-item-action bg-transparent d-flex justify-content-between align-items-center py-3 border-bottom border-light" onclick="showPolicy()">
+            <span><i class="bi bi-shield-lock text-primary me-2"></i> Privasi & Ketentuan</span>
+            <i class="bi bi-chevron-right text-muted"></i>
+        </button>
+
+        <button class="list-group-item list-group-item-action bg-transparent d-flex justify-content-between align-items-center py-3 border-bottom border-light" onclick="toggleDarkMode()"
             </section>
 
         </main>
@@ -448,7 +447,7 @@
     <script>
         // --- KONFIGURASI API ---
         // UBAH DENGAN URL DEPLOY CODE.GS YANG BARU:
-        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwLq0i8CapkkSZ5kOGOUz6GQBcHDv6isjNHcF4UzTjdQGwhHmVL9wUI8Bbx5Zx7Of_rAQ/exec"; 
+        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzHJyivjjFEWa0cTBhGe4UXoQXGlLVmrZ1di8DJRxw9TkDpb4Ef3VSypNG1lWcA4fdeuA/exec"; 
 
         // State Management
         let db = { diaries: [] };
@@ -603,7 +602,30 @@
             document.getElementById('view-login').style.opacity = '1';
             Swal.fire({icon: 'success', title: 'Berhasil Keluar', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500});
         }
-
+ // --- POLICIES ---
+function showPolicy() {
+    Swal.fire({
+        title: 'Kebijakan Privasi & ToS',
+        html: `
+            <div style="text-align: left; font-size: 0.9rem; max-height: 300px; overflow-y: auto;">
+                <p><strong>Selamat datang di Dayzy!</strong></p>
+                <p>Kami sangat menghargai privasi Anda. Sebagai jurnal digital, kami berkomitmen untuk:</p>
+                <ul>
+                    <li><strong>Privasi Mutlak:</strong> Isi jurnal Anda adalah hak milik pribadi. Kami tidak akan membaca, membagikan, atau menjual data Anda.</li>
+                    <li><strong>Keamanan Cloud:</strong> Dayzy menggunakan infrastruktur Google Cloud yang terenkripsi untuk menyimpan data Anda.</li>
+                    <li><strong>Penggunaan Wajar:</strong> Aplikasi ini ditujukan untuk refleksi pribadi dan pengembangan diri.</li>
+                    <li><strong>Tanggung Jawab:</strong> Sebagai penyedia SaaS, kami berusaha memberikan layanan 24/7, namun pengguna diharapkan tetap melakukan backup data secara berkala.</li>
+                </ul>
+                <p>Dengan menggunakan Dayzy, Anda setuju bahwa data yang Anda simpan adalah tanggung jawab pengguna. Dayzy tidak bertanggung jawab atas kebocoran data yang disebabkan oleh kelalaian pengguna dalam menjaga akun Google atau lisensi mereka.</p>
+            </div>
+        `,
+        confirmButtonText: 'Saya Mengerti',
+        confirmButtonColor: '#4a00e0',
+        customClass: {
+            popup: 'glass-card'
+        }
+    });
+}
         function toggleDarkMode() {
             const isDark = document.body.classList.toggle('dark-mode');
             document.getElementById('darkModeSwitch').checked = isDark;
