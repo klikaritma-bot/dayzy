@@ -37,10 +37,30 @@
             --nav-bg: rgba(45, 45, 60, 0.95);
         }
 
-        /* Perbaikan Placeholder untuk Dark Mode */
+        /* Perbaikan Placeholder untuk Dark Mode (Di-Forced) */
         body.dark-mode ::placeholder {
-            color: #b0b0b0 !important;
-            opacity: 1;
+            color: #ffffff !important;
+            opacity: 1 !important;
+        }
+        
+        body.dark-mode ::-webkit-input-placeholder {
+            color: #ffffff !important;
+            opacity: 1 !important;
+        }
+
+        body.dark-mode :-moz-placeholder {
+            color: #ffffff !important;
+            opacity: 1 !important;
+        }
+
+        body.dark-mode ::-moz-placeholder {
+            color: #ffffff !important;
+            opacity: 1 !important;
+        }
+
+        body.dark-mode :-ms-input-placeholder {
+            color: #ffffff !important;
+            opacity: 1 !important;
         }
 
         body.dark-mode .form-control, body.dark-mode .input-group-text {
@@ -48,11 +68,9 @@
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             color: #ffffff !important;
         }
-
         body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4, body.dark-mode h5, body.dark-mode h6, body.dark-mode p, body.dark-mode span, body.dark-mode small {
             color: var(--text-main) !important;
         }
-        
         body.dark-mode .list-group-item {
             color: var(--text-main) !important;
             background: transparent !important;
@@ -121,7 +139,6 @@
             align-items: center;
             text-decoration: none;
         }
-
         .nav-item i { font-size: 1.5rem; margin-bottom: 2px; }
         .nav-item span { font-size: 0.7rem; font-weight: 700; }
         .nav-item.active {
@@ -131,48 +148,35 @@
 
         /* Floating Action Button (FAB) */
         .fab-wrapper {
-            position: fixed;
-            bottom: 45px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1010;
+            position: fixed; bottom: 45px; left: 50%; transform: translateX(-50%); z-index: 1010;
         }
         .fab {
-            width: 65px; height: 65px;
-            border-radius: 50%;
+            width: 65px; height: 65px; border-radius: 50%;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2rem;
-            box-shadow: 0 10px 25px rgba(255, 183, 178, 0.6);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; box-shadow: 0 10px 25px rgba(255, 183, 178, 0.6);
             cursor: pointer; border: 4px solid var(--bg-color);
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .fab:hover, .fab:active {
-            transform: scale(1.1) rotate(90deg);
-        }
+        .fab:hover, .fab:active { transform: scale(1.1) rotate(90deg); }
         .nav-spacer { width: 70px; }
 
         /* Custom Inputs */
         .form-control {
-            border-radius: 18px;
-            border: 2px solid rgba(177, 156, 217, 0.2);
-            padding: 14px 18px;
-            background: rgba(255,255,255,0.8);
-            color: var(--text-main);
-            font-weight: 500;
+            border-radius: 18px; border: 2px solid rgba(177, 156, 217, 0.2);
+            padding: 14px 18px; background: rgba(255,255,255,0.8);
+            color: var(--text-main); font-weight: 500;
         }
         .form-control:focus {
             box-shadow: 0 0 0 0.3rem rgba(177, 156, 217, 0.25);
-            border-color: var(--primary);
-            background: var(--card-bg);
+            border-color: var(--primary); background: var(--card-bg);
         }
 
-        /* Loaders & Overlays - Fix Z-Index */
+        /* Loaders & Overlays */
         .full-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: var(--bg-color); 
-            z-index: 1040; /* DITURUNKAN agar popup SweetAlert (1060) bisa muncul di atasnya */
+            z-index: 1040; /* Agar SweetAlert (1060) tampil di atasnya */
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             transition: opacity 0.4s ease;
         }
@@ -189,50 +193,26 @@
         /* Header / App Bar */
         .top-header {
             padding: 25px 20px 10px; display: flex; justify-content: space-between; align-items: center;
-            background: transparent;
-            position: sticky; top: 0; z-index: 900;
+            background: transparent; position: sticky; top: 0; z-index: 900;
         }
         .user-avatar {
             width: 45px; height: 45px; border-radius: 15px; object-fit: cover; 
-            border: 2px solid var(--secondary);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            cursor: pointer;
+            border: 2px solid var(--secondary); box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer;
         }
 
         /* Profile Upload Area */
-        .profile-upload-container {
-            position: relative;
-            display: inline-block;
-        }
+        .profile-upload-container { position: relative; display: inline-block; }
         .profile-upload-badge {
-            position: absolute;
-            bottom: -5px;
-            right: -5px;
-            background: var(--success);
-            color: white;
-            border-radius: 50%;
-            width: 35px; height: 35px;
-            display: flex; justify-content: center; align-items: center;
-            border: 3px solid var(--bg-color);
-            cursor: pointer;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            position: absolute; bottom: -5px; right: -5px; background: var(--success); color: white;
+            border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center;
+            border: 3px solid var(--bg-color); cursor: pointer; box-shadow: 0 3px 8px rgba(0,0,0,0.1);
         }
         
         .btn-cute {
-            background: var(--secondary);
-            color: white;
-            border: none;
-            border-radius: 20px;
-            font-weight: 700;
-            padding: 12px;
-            box-shadow: 0 5px 15px rgba(255, 183, 178, 0.4);
-            transition: transform 0.2s;
+            background: var(--secondary); color: white; border: none; border-radius: 20px; font-weight: 700;
+            padding: 12px; box-shadow: 0 5px 15px rgba(255, 183, 178, 0.4); transition: transform 0.2s;
         }
-        .btn-cute:hover, .btn-cute:active {
-            transform: scale(1.02);
-            background: #ffaa99;
-            color: white;
-        }
+        .btn-cute:hover, .btn-cute:active { transform: scale(1.02); background: #ffaa99; color: white; }
 
         /* Masonry Gallery & Mood Picker */
         .mood-container { display: flex; gap: 15px; overflow-x: auto; padding: 10px 5px; scrollbar-width: none; }
@@ -283,7 +263,6 @@
                 <h4 class="m-0 fw-bold" id="greetingTitle" style="color: var(--primary);">Halo! 👋</h4>
                 <small class="text-muted fw-bold" id="headerDate">Hari ini</small>
             </div>
-            <!-- Header Avatar Image -->
             <img src="https://ui-avatars.com/api/?name=User&background=ffb7b2&color=fff" id="header-avatar" alt="Profile" class="user-avatar" onclick="switchTab('profile')">
         </header>
 
@@ -372,7 +351,6 @@
                             <input type="text" class="form-control" id="input-tags" placeholder="Tags (koma dipisah) contoh: kampus, nongkrong">
                         </div>
 
-                        <!-- Fitur Upload Foto Diary dengan Kompresi (Canvas) -->
                         <div class="mb-4 text-center">
                             <label for="diary-photo-upload" class="d-block p-4" style="border: 2px dashed rgba(177, 156, 217, 0.5); border-radius: 20px; cursor: pointer; background: rgba(177, 156, 217, 0.05);">
                                 <i class="bi bi-camera-fill fs-1" style="color: var(--primary);"></i>
@@ -381,16 +359,13 @@
                             <input type="file" id="diary-photo-upload" class="d-none" accept="image/*" onchange="handleDiaryPhotoUpload(event)">
                             <input type="hidden" id="input-base64-image" value="">
                             
-                            <!-- Preview Foto Diary -->
                             <div id="diary-photo-preview" class="mt-3 d-none position-relative">
                                 <img id="preview-img" src="" class="img-fluid rounded-4 shadow-sm" style="max-height: 200px; object-fit: cover;">
                                 <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 rounded-circle" onclick="removeDiaryPhoto()"><i class="bi bi-x"></i></button>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn-cute w-100">
-                            Simpan Cerita 🎀
-                        </button>
+                        <button type="submit" class="btn-cute w-100">Simpan Cerita 🎀</button>
                     </form>
                 </div>
             </section>
@@ -404,21 +379,18 @@
             <!-- VIEW: PROFILE -->
             <section id="view-profile" class="d-none">
                 <div class="text-center mb-4">
-                    <!-- Photo Upload Container -->
                     <div class="profile-upload-container">
                         <img src="https://ui-avatars.com/api/?name=User&background=ffb7b2&color=fff" id="main-avatar" alt="Profile" style="width: 100px; height: 100px; border-radius: 30px; object-fit: cover; border: 4px solid white; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
                         
-                        <!-- Perbaikan: Menggunakan Label agar input file bisa di-klik tanpa Event Bubbling -->
                         <label for="profile-pic-upload" class="profile-upload-badge">
                             <i class="bi bi-camera-fill"></i>
                         </label>
                         <input type="file" id="profile-pic-upload" class="d-none" accept="image/*" onchange="handleProfilePicUpload(event)">
                     </div>
                     <h3 class="fw-bold mt-3 mb-1 text-main" id="profile-display-name">Dayzy User</h3>
-                    <p class="text-muted small fw-bold" id="profile-email">user@dayzy.app</p>
+                    <p class="text-muted small fw-bold" id="profile-license-id">Lisensi: -</p>
                 </div>
 
-                <!-- Form Data Diri (Profile Update) -->
                 <div class="glass-card mb-4">
                     <h6 class="fw-bold mb-3">Data Profil</h6>
                     <div class="mb-3">
@@ -433,7 +405,6 @@
                         <label class="form-label small text-muted fw-bold">Minat / Hobi</label>
                         <input type="text" class="form-control" id="input-profile-hobby" placeholder="Mendengarkan musik...">
                     </div>
-                    <!-- Perbaikan: type="button" agar form tidak ter-submit otomatis -->
                     <button type="button" class="btn-cute w-100" onclick="saveProfile()">
                         <i class="bi bi-box-arrow-down me-2"></i> Simpan Profil
                     </button>
@@ -441,19 +412,12 @@
 
                 <div class="glass-card">
                     <div class="list-group list-group-flush bg-transparent">
-                        <!-- Dark Mode Toggle -->
                         <button class="list-group-item list-group-item-action border-0 d-flex justify-content-between align-items-center py-3" onclick="toggleDarkMode()">
                             <span class="fw-bold"><i class="bi bi-moon-stars me-2"></i> Tampilan Gelap</span>
                             <div class="form-check form-switch m-0">
                                 <input class="form-check-input" type="checkbox" id="darkModeSwitch" style="pointer-events: none;">
                             </div>
                         </button>
-
-                        <button class="list-group-item list-group-item-action border-0 d-flex justify-content-between align-items-center py-3">
-                            <span class="fw-bold"><i class="bi bi-cloud-check text-primary me-2"></i> Auto-Sync API</span>
-                            <span class="badge bg-success rounded-pill">Aktif</span>
-                        </button>
-                        
                         <button class="list-group-item list-group-item-action border-0 d-flex justify-content-between align-items-center py-3 text-danger" onclick="logout()">
                             <span class="fw-bold"><i class="bi bi-box-arrow-right me-2"></i> Keluar</span>
                         </button>
@@ -465,27 +429,16 @@
 
         <!-- Bottom Navigation & FAB -->
         <div class="fab-wrapper">
-            <button class="fab" onclick="switchTab('add')">
-                <i class="bi bi-plus"></i>
-            </button>
+            <button class="fab" onclick="switchTab('add')"><i class="bi bi-plus"></i></button>
         </div>
 
         <nav class="bottom-nav">
-            <a href="#" class="nav-item active" id="nav-home" onclick="switchTab('home')">
-                <i class="bi bi-house-door-fill"></i><span>Home</span>
-            </a>
-            <a href="#" class="nav-item" id="nav-timeline" onclick="switchTab('timeline')">
-                <i class="bi bi-calendar2-heart-fill"></i><span>Timeline</span>
-            </a>
+            <a href="#" class="nav-item active" id="nav-home" onclick="switchTab('home')"><i class="bi bi-house-door-fill"></i><span>Home</span></a>
+            <a href="#" class="nav-item" id="nav-timeline" onclick="switchTab('timeline')"><i class="bi bi-calendar2-heart-fill"></i><span>Timeline</span></a>
             <div class="nav-spacer"></div>
-            <a href="#" class="nav-item" id="nav-gallery" onclick="switchTab('gallery')">
-                <i class="bi bi-images"></i><span>Gallery</span>
-            </a>
-            <a href="#" class="nav-item" id="nav-profile" onclick="switchTab('profile')">
-                <i class="bi bi-person-fill"></i><span>Profile</span>
-            </a>
+            <a href="#" class="nav-item" id="nav-gallery" onclick="switchTab('gallery')"><i class="bi bi-images"></i><span>Gallery</span></a>
+            <a href="#" class="nav-item" id="nav-profile" onclick="switchTab('profile')"><i class="bi bi-person-fill"></i><span>Profile</span></a>
         </nav>
-
     </div>
 
     <!-- SweetAlert2 -->
@@ -493,83 +446,65 @@
 
     <!-- Application Logic -->
     <script>
-        // --- KONFIGURASI API (Ubah ini dengan URL Deploy Vercel/GAS Anda) ---
-        // Jika kosong, aplikasi berjalan dalam Simulation Mode (Dummy Data)
-        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzb5mmmf8dRmgW2SF6Wh-lDt-mTEBkWNGU-_rfd370oLs7NSWTWG4ed9M1naxAC-jiVBQ/exec"; 
+        // --- KONFIGURASI API ---
+        // UBAH DENGAN URL DEPLOY CODE.GS YANG BARU:
+        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwLq0i8CapkkSZ5kOGOUz6GQBcHDv6isjNHcF4UzTjdQGwhHmVL9wUI8Bbx5Zx7Of_rAQ/exec"; 
 
         // State Management
         let db = { diaries: [] };
-        let isSimulation = (GAS_API_URL === "");
-        let currentUserEmail = ""; 
+        let isSimulation = (GAS_API_URL === "" || GAS_API_URL === "ISI_DENGAN_URL_WEB_APP_GAS_ANDA_DISINI");
+        let currentLicenseKey = localStorage.getItem('dayzy_license') || ""; // Load sesi lisensi
         
-        // Objek untuk menyimpan profil lokal
-        let userProfile = {
-            name: "",
-            dob: "",
-            hobby: "",
-            pic: "" // Akan diisi base64 hasil kompresi canvas
-        };
-
-        const dummyData = [
-            {
-                ID: "DIA-1", UserEmail: "user@dayzy.app", Date: "2026-06-25", Title: "Jalan-Jalan Estetik", Mood: "🥰",
-                Content: "Hari ini pergi ke cafe baru yang lucu banget. Beli matcha latte dan foto-foto OOTD. Dayzy app ini cute banget!",
-                Tags: "cafe, chill", Images: '["https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=500&q=80"]', Timestamp: new Date().toISOString()
-            }
-        ];
+        let userProfile = { name: "", dob: "", hobby: "", pic: "" };
 
         // INITIALIZATION
         window.onload = () => {
-            // Load preferensi Dark Mode
             if(localStorage.getItem('dayzy_theme') === 'dark') {
                 document.body.classList.add('dark-mode');
                 document.getElementById('darkModeSwitch').checked = true;
             }
-            
-            // Load Profile dari Local Storage
             loadLocalProfile();
-
             document.getElementById('headerDate').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             document.getElementById('input-date').valueAsDate = new Date();
+
+            // Auto Login jika Lisensi tersimpan
+            if (currentLicenseKey !== "" && !isSimulation) {
+                document.getElementById('view-login').style.display = 'none';
+                loadData();
+            } else if (isSimulation) {
+                // Biarkan di halaman login simulation
+            }
         };
 
-        // --- PROFILE LOGIC (Upload + Kompresi Anti-Error) ---
+        // --- PROFILE LOGIC ---
         function loadLocalProfile() {
             const savedProfile = localStorage.getItem('dayzy_profile');
             if (savedProfile) {
                 try {
                     userProfile = JSON.parse(savedProfile);
-                    // Isi form
                     document.getElementById('input-profile-name').value = userProfile.name || "";
                     document.getElementById('input-profile-dob').value = userProfile.dob || "";
                     document.getElementById('input-profile-hobby').value = userProfile.hobby || "";
-                    
-                    // Update tampilan avatar dan sapaan
-                    updateAvatar(currentUserEmail || "User");
-                } catch(e) { console.error("Error parsing profile", e); }
+                    updateAvatar(currentLicenseKey || "User");
+                } catch(e) { console.error(e); }
             }
+            document.getElementById('profile-license-id').innerText = `Lisensi: ${currentLicenseKey || 'Mode Simulasi'}`;
         }
 
-        function updateAvatar(emailParam) {
-            let avatarUrl = userProfile.pic; // Cek jika ada foto profil lokal (Base64)
-            
-            // Jika tidak ada foto lokal, buat avatar inisial berdasarkan nama atau email
+        function updateAvatar(identifier) {
+            let avatarUrl = userProfile.pic;
             if (!avatarUrl || avatarUrl === "") {
-                const displayName = userProfile.name || emailParam || "User";
+                const displayName = userProfile.name || identifier || "User";
                 const safeName = encodeURIComponent(displayName);
                 avatarUrl = `https://ui-avatars.com/api/?name=${safeName}&background=ffb7b2&color=fff`;
             }
-            
             document.getElementById('main-avatar').src = avatarUrl;
             document.getElementById('header-avatar').src = avatarUrl;
-            
-            // Update Sapaan
             const finalName = userProfile.name || "Kamu";
             document.getElementById('profile-display-name').innerText = finalName;
             document.getElementById('greetingTitle').innerText = `Halo, ${finalName}! 👋`;
         }
 
-        // FUNGSI KOMPRESI GAMBAR (Menggunakan Canvas agar LocalStorage tidak penuh)
         function handleProfilePicUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -578,102 +513,91 @@
                     const img = new Image();
                     img.onload = function() {
                         const canvas = document.createElement('canvas');
-                        // Resize gambar maksimal menjadi 250x250 pixel
-                        const MAX_WIDTH = 250;
-                        const MAX_HEIGHT = 250;
-                        let width = img.width;
-                        let height = img.height;
-
-                        // Kalkulasi rasio aspek (menjaga gambar tidak gepeng)
-                        if (width > height) {
-                            if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-                        } else {
-                            if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
-                        }
-                        
+                        const MAX_WIDTH = 250; const MAX_HEIGHT = 250;
+                        let width = img.width; let height = img.height;
+                        if (width > height) { if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; } } 
+                        else { if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; } }
                         canvas.width = width; canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
+                        const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
                         
-                        // Konversi kembali ke base64 (Format JPEG, Kualitas 80%) - Ukuran jadi super kecil
                         const base64Pic = canvas.toDataURL('image/jpeg', 0.8);
-                        
-                        userProfile.pic = base64Pic; // Update objek profil
-                        updateAvatar(currentUserEmail); // Tampilkan di UI
-                        
-                        // Simpan otomatis ke memori browser
+                        userProfile.pic = base64Pic;
+                        updateAvatar(currentLicenseKey);
                         try {
                             localStorage.setItem('dayzy_profile', JSON.stringify(userProfile));
                             Swal.fire({icon: 'success', title: 'Foto Diperbarui!', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500});
-                        } catch (err) {
-                            console.error("Gagal simpan foto:", err);
-                            Swal.fire({icon: 'error', title: 'Ups!', text: 'Memori browser penuh. Hapus cache atau gunakan gambar yang lebih kecil.'});
-                        }
+                        } catch (err) { Swal.fire({icon: 'error', title: 'Ups!', text: 'Memori penuh, coba foto yang lebih kecil.'}); }
                     };
-                    img.src = e.target.result; // Set source gambar untuk Canvas
+                    img.src = e.target.result;
                 };
-                reader.readAsDataURL(file); // Mulai membaca file dari input
+                reader.readAsDataURL(file);
             }
         }
 
-        // FUNGSI SIMPAN DATA TEKS PROFIL
         function saveProfile() {
             try {
                 userProfile.name = document.getElementById('input-profile-name').value;
                 userProfile.dob = document.getElementById('input-profile-dob').value;
                 userProfile.hobby = document.getElementById('input-profile-hobby').value;
-                
-                // Simpan ke local storage browser
                 localStorage.setItem('dayzy_profile', JSON.stringify(userProfile));
-                updateAvatar(currentUserEmail); // Refresh sapaan header
-                
+                updateAvatar(currentLicenseKey);
                 Swal.fire({icon: 'success', title: 'Profil Tersimpan 🎀', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500});
-            } catch (error) {
-                console.error("Gagal simpan profil:", error);
-                
-                // Tangkap error jika localStorage jebol (QuotaExceededError)
-                let msg = 'Gagal menyimpan profil. Silakan coba lagi.';
-                if (error.name === 'QuotaExceededError' || error.message.includes('quota')) {
-                    msg = 'Penyimpanan browser penuh. Sistem me-reset foto Anda agar bisa menyimpan. Silakan upload ulang foto!';
-                    userProfile.pic = ""; // Reset foto yang mungkin bikin penuh
-                }
-                Swal.fire({icon: 'error', title: 'Ups!', text: msg});
-            }
+            } catch (error) { Swal.fire({icon: 'error', title: 'Ups!', text: 'Gagal menyimpan profil.'}); }
         }
 
-        // UI & AUTH LOGIC
+        // --- AUTH LOGIC (LICENSE SYSTEM) ---
         async function doLogin() {
             if(isSimulation) {
-                // Simulasi Login Sukses menggunakan SweetAlert input
-                const { value: email } = await Swal.fire({
-                    title: 'Masukkan Emailmu',
-                    input: 'email',
-                    inputPlaceholder: 'nama@email.com',
-                    showCancelButton: true,
-                    confirmButtonColor: '#b19cd9'
-                });
-                if (email) {
-                    currentUserEmail = email;
-                    document.getElementById('profile-email').innerText = currentUserEmail;
-                    updateAvatar(currentUserEmail); // Refresh sapaan
-                    
-                    document.getElementById('view-login').style.opacity = '0';
-                    setTimeout(() => {
-                        document.getElementById('view-login').style.display = 'none';
-                        loadData();
-                    }, 300);
-                }
-            } else {
-                // Untuk Real API, kita bypass prompt karena Google Apps Script otomatis mendeteksi email
+                // Bypass login di Mode Simulasi
                 document.getElementById('view-login').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('view-login').style.display = 'none';
-                    loadData();
-                }, 300);
+                setTimeout(() => { document.getElementById('view-login').style.display = 'none'; loadData(); }, 300);
+                return;
+            }
+
+            // Meminta Kode Lisensi via Popup
+            const { value: key } = await Swal.fire({
+                title: 'Aktivasi Lisensi',
+                input: 'text',
+                inputPlaceholder: 'Contoh: DAYZY-PRO-2026',
+                showCancelButton: true,
+                confirmButtonColor: '#b19cd9',
+                cancelButtonText: 'Batal'
+            });
+
+            if (key) {
+                startLoading();
+                try {
+                    // Validasi ke Backend menggunakan POST Request
+                    const payload = { action: 'verifyLicense', licenseKey: key };
+                    const response = await fetch(GAS_API_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(payload)
+                    });
+                    const res = await response.json();
+                    
+                    if(res.status === 'success') {
+                        currentLicenseKey = key;
+                        localStorage.setItem('dayzy_license', key); // Simpan sesi
+                        document.getElementById('profile-license-id').innerText = `Lisensi: ${currentLicenseKey}`;
+                        
+                        document.getElementById('view-login').style.opacity = '0';
+                        setTimeout(() => { document.getElementById('view-login').style.display = 'none'; }, 300);
+                        
+                        Swal.fire({icon: 'success', title: `Selamat datang!`, toast: true, position: 'top-end', showConfirmButton: false, timer: 1500});
+                        loadData();
+                    } else {
+                        throw new Error(res.message);
+                    }
+                } catch(err) {
+                    endLoading();
+                    Swal.fire('Akses Ditolak', err.message, 'error');
+                }
             }
         }
 
         function logout() {
+            localStorage.removeItem('dayzy_license'); // Hapus sesi
+            currentLicenseKey = "";
             document.getElementById('app-container').classList.add('d-none');
             document.getElementById('view-login').style.display = 'flex';
             document.getElementById('view-login').style.opacity = '1';
@@ -686,7 +610,7 @@
             localStorage.setItem('dayzy_theme', isDark ? 'dark' : 'light');
         }
 
-        // LOAD DATA
+        // --- DATA LOAD LOGIC (Fetch POST) ---
         function startLoading() {
             document.getElementById('loading-overlay').style.display = 'flex';
             setTimeout(() => document.getElementById('loading-overlay').style.opacity = '1', 10);
@@ -703,105 +627,75 @@
         async function loadData() {
             startLoading();
             if (isSimulation) {
-                setTimeout(() => {
-                    db.diaries = JSON.parse(JSON.stringify(dummyData));
-                    renderUI();
-                    endLoading();
-                }, 1000);
+                // DUMMY DATA UNTUK MODE SIMULASI (Preview tanpa Vercel/GAS)
+                const dummyData = [{ID: "DIA-1", Date: "2026-06-25", Title: "Mode Simulasi", Mood: "🥰", Content: "Dayzy berjalan tanpa Backend API.", Tags: "test", Images: '[]', Timestamp: new Date().toISOString()}];
+                setTimeout(() => { db.diaries = JSON.parse(JSON.stringify(dummyData)); renderUI(); endLoading(); }, 1000);
             } else {
-                // Fetch to GAS Backend (Decoupled SaaS)
                 try {
-                    const response = await fetch(GAS_API_URL + "?action=getAllData");
+                    // Ambil data milik lisensi ini pakai POST Request
+                    const payload = { action: 'getAllData', licenseKey: currentLicenseKey };
+                    const response = await fetch(GAS_API_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(payload)
+                    });
                     const res = await response.json();
                     
                     if(res.status === 'success') {
                         db.diaries = res.diaries;
-                        currentUserEmail = res.userEmail;
-                        document.getElementById('profile-email').innerText = currentUserEmail;
-                        updateAvatar(currentUserEmail);
                         renderUI();
                     } else {
                         throw new Error(res.message);
                     }
                 } catch(err) {
-                    Swal.fire('Error', 'Gagal terhubung ke Cloud Dayzy: ' + err.message, 'error');
+                    Swal.fire('Error API', 'Gagal memuat: ' + err.message, 'error');
                 } finally {
                     endLoading();
                 }
             }
         }
 
-        // RENDER LOGIC
+        // --- RENDER LOGIC ---
         function renderUI() {
-            renderHome();
-            renderTimeline(db.diaries);
-            renderGallery();
+            renderHome(); renderTimeline(db.diaries); renderGallery();
             document.getElementById('stat-total').innerText = db.diaries.length;
         }
 
         function renderHome() {
-            const container = document.getElementById('recent-diaries');
-            container.innerHTML = '';
+            const container = document.getElementById('recent-diaries'); container.innerHTML = '';
             const recent = db.diaries.slice(0, 2);
-            if(recent.length === 0) {
-                container.innerHTML = `<div class="text-center text-muted p-4 fw-bold">Belum ada cerita. Yuk nulis!</div>`;
-                return;
-            }
+            if(recent.length === 0) { container.innerHTML = `<div class="text-center text-muted p-4 fw-bold">Belum ada cerita. Yuk nulis!</div>`; return; }
             recent.forEach(item => container.innerHTML += createDiaryCard(item));
         }
 
         function renderTimeline(dataToRender) {
-            const container = document.getElementById('timeline-container');
-            container.innerHTML = '';
-            if(dataToRender.length === 0) {
-                container.innerHTML = `<div class="text-center text-muted p-5 fw-bold">Tidak ada jurnal ditemukan.</div>`;
-                return;
-            }
+            const container = document.getElementById('timeline-container'); container.innerHTML = '';
+            if(dataToRender.length === 0) { container.innerHTML = `<div class="text-center text-muted p-5 fw-bold">Tidak ada jurnal.</div>`; return; }
             dataToRender.forEach(item => container.innerHTML += createDiaryCard(item));
         }
 
         function renderGallery() {
-            const container = document.getElementById('gallery-container');
-            container.innerHTML = '';
-            let hasImage = false;
+            const container = document.getElementById('gallery-container'); container.innerHTML = ''; let hasImage = false;
             db.diaries.forEach(item => {
-                let images = [];
-                try { images = JSON.parse(item.Images); } catch(e){}
-                if(images && images.length > 0) {
-                    hasImage = true;
-                    images.forEach(img => container.innerHTML += `<div class="gallery-item"><img src="${img}" alt="Memori"></div>`);
-                }
+                let images = []; try { images = JSON.parse(item.Images); } catch(e){}
+                if(images && images.length > 0) { hasImage = true; images.forEach(img => container.innerHTML += `<div class="gallery-item"><img src="${img}" alt="Memori"></div>`); }
             });
             if(!hasImage) container.innerHTML = `<div class="text-muted text-center w-100 mt-4 fw-bold">Belum ada foto aesthetic.</div>`;
         }
 
         function createDiaryCard(item) {
-            let images = [];
-            try { images = JSON.parse(item.Images); } catch(e){}
-            let imgHtml = (images && images.length > 0) ? `<img src="${images[0]}" class="w-100 mb-3" style="border-radius: 15px; max-height: 200px; object-fit: cover;" alt="Foto Momen">` : '';
-            
-            let tagsHtml = '';
-            if (item.Tags) {
-                tagsHtml = item.Tags.split(',').map(t => `<span class="badge bg-light text-dark border me-1 mb-1 shadow-sm rounded-pill">#${t.trim()}</span>`).join('');
-            }
+            let images = []; try { images = JSON.parse(item.Images); } catch(e){}
+            let imgHtml = (images && images.length > 0) ? `<img src="${images[0]}" class="w-100 mb-3" style="border-radius: 15px; max-height: 200px; object-fit: cover;" alt="Foto">` : '';
+            let tagsHtml = item.Tags ? item.Tags.split(',').map(t => `<span class="badge bg-light text-dark border me-1 mb-1 shadow-sm rounded-pill">#${t.trim()}</span>`).join('') : '';
 
             return `
                 <div class="glass-card diary-card position-relative">
                     <div class="d-flex justify-content-between align-items-start mb-2">
-                        <div class="d-flex align-items-center">
-                            <span class="fs-1 me-3 lh-1">${item.Mood}</span>
-                            <div>
-                                <h5 class="fw-bold m-0 text-main">${item.Title}</h5>
-                                <small class="text-muted fw-bold"><i class="bi bi-clock me-1"></i>${new Date(item.Date).toLocaleDateString('id-ID')}</small>
-                            </div>
+                        <div class="d-flex align-items-center"><span class="fs-1 me-3 lh-1">${item.Mood}</span>
+                            <div><h5 class="fw-bold m-0 text-main">${item.Title}</h5><small class="text-muted fw-bold"><i class="bi bi-clock me-1"></i>${new Date(item.Date).toLocaleDateString('id-ID')}</small></div>
                         </div>
-                        ${isSimulation ? `<button class="btn btn-sm btn-light rounded-circle text-danger shadow-sm border" onclick="deleteSim('${item.ID}')"><i class="bi bi-trash-fill"></i></button>` : ''}
                     </div>
-                    ${imgHtml}
-                    <p class="small mt-2 mb-2 line-clamp-3" style="color: var(--text-main); opacity: 0.9;">${item.Content}</p>
-                    <div class="mt-2">${tagsHtml}</div>
-                </div>
-            `;
+                    ${imgHtml}<p class="small mt-2 mb-2 line-clamp-3" style="color: var(--text-main); opacity: 0.9;">${item.Content}</p><div class="mt-2">${tagsHtml}</div>
+                </div>`;
         }
 
         // SPA Navigation
@@ -809,26 +703,22 @@
             ['home', 'timeline', 'add', 'gallery', 'profile'].forEach(id => document.getElementById(`view-${id}`).classList.add('d-none'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             document.getElementById(`view-${tabId}`).classList.remove('d-none');
-            const navBtn = document.getElementById(`nav-${tabId}`);
-            if(navBtn) navBtn.classList.add('active');
+            const navBtn = document.getElementById(`nav-${tabId}`); if(navBtn) navBtn.classList.add('active');
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
         function selectMood(element) {
             document.querySelectorAll('.mood-option').forEach(el => el.classList.remove('selected'));
-            element.classList.add('selected');
-            document.getElementById('input-mood').value = element.getAttribute('data-mood');
+            element.classList.add('selected'); document.getElementById('input-mood').value = element.getAttribute('data-mood');
         }
 
         function searchDiary() {
             const keyword = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = db.diaries.filter(item => 
-                item.Title.toLowerCase().includes(keyword) || item.Content.toLowerCase().includes(keyword) || (item.Tags && item.Tags.toLowerCase().includes(keyword))
-            );
+            const filtered = db.diaries.filter(item => item.Title.toLowerCase().includes(keyword) || item.Content.toLowerCase().includes(keyword));
             renderTimeline(filtered);
         }
 
-        // --- Logika Gambar Diary ---
+        // --- UPLOAD FOTO & SIMPAN JURNAL ---
         function handleDiaryPhotoUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -837,23 +727,14 @@
                     const img = new Image();
                     img.onload = function() {
                         const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 800; // Lebih besar dari foto profil karena ini dokumentasi
-                        const MAX_HEIGHT = 800;
+                        const MAX_WIDTH = 800; const MAX_HEIGHT = 800;
                         let width = img.width; let height = img.height;
-
-                        if (width > height) {
-                            if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-                        } else {
-                            if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
-                        }
-                        
+                        if (width > height) { if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; } } 
+                        else { if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; } }
                         canvas.width = width; canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
+                        const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
                         
-                        // Kompresi kualitas 70% agar hemat kapasitas Database/SaaS
-                        const base64Pic = canvas.toDataURL('image/jpeg', 0.7);
-                        
+                        const base64Pic = canvas.toDataURL('image/jpeg', 0.7); // Kompresi foto jurnal
                         document.getElementById('preview-img').src = base64Pic;
                         document.getElementById('diary-photo-preview').classList.remove('d-none');
                         document.getElementById('input-base64-image').value = base64Pic;
@@ -865,20 +746,16 @@
         }
 
         function removeDiaryPhoto() {
-            document.getElementById('input-base64-image').value = "";
-            document.getElementById('preview-img').src = "";
-            document.getElementById('diary-photo-preview').classList.add('d-none');
-            document.getElementById('diary-photo-upload').value = ""; // Reset file input
+            document.getElementById('input-base64-image').value = ""; document.getElementById('preview-img').src = "";
+            document.getElementById('diary-photo-preview').classList.add('d-none'); document.getElementById('diary-photo-upload').value = "";
         }
 
-        // CRUD CREATE
         async function saveData(e) {
             e.preventDefault();
             const btnSubmit = document.querySelector('button[type="submit"]');
             btnSubmit.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan...`;
             btnSubmit.disabled = true;
             
-            // Ambil base64 jika user mengupload gambar
             const uploadedImgBase64 = document.getElementById('input-base64-image').value;
             const imagesArray = uploadedImgBase64 !== "" ? [uploadedImgBase64] : [];
 
@@ -893,23 +770,15 @@
 
             if (isSimulation) {
                 setTimeout(() => {
-                    db.diaries.unshift({
-                        ID: "DIA-" + new Date().getTime(), UserEmail: currentUserEmail, Date: newData.date, Title: newData.title,
-                        Mood: newData.mood, Content: newData.content, Tags: newData.tags, Images: JSON.stringify(newData.images), Timestamp: new Date().toISOString()
-                    });
-                    renderUI();
-                    Swal.fire({icon: 'success', title: 'Tersimpan!', showConfirmButton: false, timer: 1500, toast: true, position: 'top-end'});
-                    
-                    document.getElementById('form-diary').reset();
-                    removeDiaryPhoto(); // Bersihkan preview
-                    btnSubmit.innerHTML = `Simpan Cerita 🎀`;
-                    btnSubmit.disabled = false;
-                    switchTab('home');
+                    db.diaries.unshift({ ID: "DIA-" + new Date().getTime(), LicenseKey: "SIMULATION", Date: newData.date, Title: newData.title, Mood: newData.mood, Content: newData.content, Tags: newData.tags, Images: JSON.stringify(newData.images), Timestamp: new Date().toISOString() });
+                    renderUI(); Swal.fire({icon: 'success', title: 'Tersimpan!', showConfirmButton: false, timer: 1500, toast: true, position: 'top-end'});
+                    document.getElementById('form-diary').reset(); removeDiaryPhoto();
+                    btnSubmit.innerHTML = `Simpan Cerita 🎀`; btnSubmit.disabled = false; switchTab('home');
                 }, 1000);
             } else {
-                // Post to GAS Backend API
                 try {
-                    const payload = { action: 'saveDiary', userEmail: currentUserEmail, payload: newData };
+                    // Simpan data pakai POST Request & License Key
+                    const payload = { action: 'saveDiary', licenseKey: currentLicenseKey, payload: newData };
                     const response = await fetch(GAS_API_URL, {
                         method: 'POST',
                         body: JSON.stringify(payload)
@@ -918,37 +787,12 @@
                     
                     if(res.status === 'success') {
                         Swal.fire({icon: 'success', title: 'Tersimpan di Cloud!', showConfirmButton: false, timer: 1500, toast: true, position: 'top-end'});
-                        document.getElementById('form-diary').reset();
-                        removeDiaryPhoto();
-                        loadData(); // Refresh data dari cloud
-                        switchTab('home');
-                    } else {
-                        throw new Error(res.message);
-                    }
-                } catch(err) {
-                    Swal.fire('Error', 'Gagal menyimpan: ' + err.message, 'error');
-                } finally {
-                    btnSubmit.innerHTML = `Simpan Cerita 🎀`;
-                    btnSubmit.disabled = false;
-                }
+                        document.getElementById('form-diary').reset(); removeDiaryPhoto();
+                        loadData(); switchTab('home');
+                    } else { throw new Error(res.message); }
+                } catch(err) { Swal.fire('Error', 'Gagal menyimpan: ' + err.message, 'error'); } 
+                finally { btnSubmit.innerHTML = `Simpan Cerita 🎀`; btnSubmit.disabled = false; }
             }
-        }
-
-        // SIMULASI HAPUS DATA
-        function deleteSim(id) {
-            Swal.fire({
-                title: 'Hapus cerita?', text: "Yakin nih mau dihapus? 🥺", icon: 'warning', showCancelButton: true,
-                confirmButtonColor: '#ffb7b2', cancelButtonColor: '#b19cd9', confirmButtonText: 'Ya, Hapus', cancelButtonText: 'Gak Jadi'
-            }).then((res) => {
-                if (res.isConfirmed) {
-                    const index = db.diaries.findIndex(d => d.ID === id);
-                    if(index > -1) {
-                        db.diaries.splice(index, 1);
-                        renderUI();
-                        Swal.fire({icon: 'success', title: 'Terhapus!', showConfirmButton: false, timer: 1000, toast: true, position: 'top-end'});
-                    }
-                }
-            });
         }
     </script>
 </body>
