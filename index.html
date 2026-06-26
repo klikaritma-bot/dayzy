@@ -173,9 +173,9 @@
         body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4, body.dark-mode h5, body.dark-mode h6 { color: #ffffff !important; }
         
         /* Fix Dark Mode Placeholder & Input Styles */
-        body.dark-mode .form-control::placeholder { color: #b0b0b0 !important; opacity: 1; }
-        body.dark-mode .form-control { background: rgba(0,0,0,0.3) !important; border-color: rgba(255,255,255,0.2) !important; color: #ffffff !important; }
-        body.dark-mode .input-group-text { background: rgba(0,0,0,0.3) !important; border-color: rgba(255,255,255,0.2) !important; }
+        body.dark-mode .form-control::placeholder { color: rgba(255, 255, 255, 0.7) !important; opacity: 1; }
+        body.dark-mode .form-control { background: rgba(255, 255, 255, 0.1) !important; border-color: rgba(255, 255, 255, 0.2) !important; color: #ffffff !important; }
+        body.dark-mode .input-group-text { background: rgba(255, 255, 255, 0.1) !important; border-color: rgba(255, 255, 255, 0.2) !important; color: #ffffff !important; }
 
         /* Overlays & Login Screen */
         .full-overlay {
@@ -380,8 +380,8 @@
                             <input type="text" class="form-control" id="input-tags" placeholder="Tags (koma dipisah) contoh: kampus, nongkrong">
                         </div>
 
-                        <!-- Perbaikan Fitur Upload Foto Diary (Dummy Mode) -->
-                        <div class="mb-4 p-4 text-center" style="background: rgba(255,255,255,0.4); border: 2px dashed var(--primary); border-radius: 24px; cursor: pointer; transition: all 0.3s;" onclick="document.getElementById('diary-photo-upload').click()">
+                        <!-- Perbaikan Fitur Upload Foto Diary (Gunakan Label agar tidak nge-loop) -->
+                        <label for="diary-photo-upload" class="mb-4 p-4 text-center d-block" style="background: rgba(255,255,255,0.1); border: 2px dashed var(--primary); border-radius: 24px; cursor: pointer; transition: all 0.3s;">
                             <div style="font-size: 3rem; margin-bottom: 5px;">📸</div>
                             <p class="mb-0 fw-bold" style="color: var(--primary);">Tambah Foto Aesthetic</p>
                             <p class="small text-muted mt-1 fw-bold">Pilih foto dari perangkatmu</p>
@@ -390,7 +390,7 @@
                                 <img src="" id="preview-img" style="max-height: 150px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                                 <input type="hidden" id="input-base64-image">
                             </div>
-                        </div>
+                        </label>
 
                         <button type="submit" class="btn btn-pastel w-100 rounded-pill py-3 fw-bold shadow-sm">
                             <i class="bi bi-journal-check me-2"></i> Simpan Kenangan
@@ -431,7 +431,7 @@
                         <label class="form-label small text-muted fw-bold">Minat / Hobi</label>
                         <input type="text" class="form-control" id="input-profile-hobby" placeholder="Membaca, Musik, dll...">
                     </div>
-                    <button class="btn btn-pastel w-100 rounded-pill py-2 fw-bold shadow-sm" onclick="saveProfile()">
+                    <button type="button" class="btn btn-pastel w-100 rounded-pill py-2 fw-bold shadow-sm" onclick="saveProfile()">
                         <i class="bi bi-save me-2"></i> Simpan Profil
                     </button>
                 </div>
@@ -575,11 +575,12 @@
         }
 
         function updateAvatar(email) {
-            let defaultName = email.split('@')[0];
+            let safeEmail = email || "pengguna@dayzy.app";
+            let defaultName = safeEmail.split('@')[0];
             let name = userProfile.name || defaultName;
             let finalName = name.charAt(0).toUpperCase() + name.slice(1);
             
-            let url = userProfile.pic || `https://ui-avatars.com/api/?name=${name}&background=FFB7B2&color=5D576B&size=120&font-size=0.33`;
+            let url = userProfile.pic || `https://ui-avatars.com/api/?name=${encodeURIComponent(finalName)}&background=FFB7B2&color=5D576B&size=120&font-size=0.33`;
             
             document.getElementById('header-avatar').src = url;
             document.getElementById('main-avatar').src = url;
@@ -611,12 +612,17 @@
         }
 
         function saveProfile() {
-            userProfile.name = document.getElementById('input-profile-name').value;
-            userProfile.dob = document.getElementById('input-profile-dob').value;
-            userProfile.hobby = document.getElementById('input-profile-hobby').value;
-            localStorage.setItem('dayzy_profile', JSON.stringify(userProfile));
-            updateAvatar(currentUserEmail);
-            Swal.fire({icon: 'success', title: 'Profil Tersimpan!', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500});
+            try {
+                userProfile.name = document.getElementById('input-profile-name').value;
+                userProfile.dob = document.getElementById('input-profile-dob').value;
+                userProfile.hobby = document.getElementById('input-profile-hobby').value;
+                localStorage.setItem('dayzy_profile', JSON.stringify(userProfile));
+                updateAvatar(currentUserEmail);
+                Swal.fire({icon: 'success', title: 'Profil Tersimpan!', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500});
+            } catch (error) {
+                console.error("Gagal simpan profil:", error);
+                Swal.fire({icon: 'error', title: 'Ups!', text: 'Gagal menyimpan profil. Silakan coba lagi.'});
+            }
         }
 
         // --- LOAD DATA (Fetch API Vercel) ---
