@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Dayzy - Your Cute Journal</title>
+    
+    <!-- Fonts: Quicksand for a super cute, bubbly look -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            /* Pastel GenZ Palette */
+            --primary: #B088F9;     /* Soft Lilac */
+            --secondary: #FFB7B2;   /* Pastel Pink */
+            --accent: #FFDAC1;      /* Pastel Peach */
+            --success: #B5EAD7;     /* Pastel Mint */
+            --bg-color: #FFF9FB;    /* Very soft pinkish white */
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-main: #5D576B;   /* Soft dark purple/grey */
+            --text-muted: #A39DB0;
+            --border-radius: 30px;  /* Squircle look */
+            --nav-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        /* --- DARK MODE VARIABLES --- */
+        body.dark-mode {
+            --bg-color: #2D283E;
+            --card-bg: rgba(76, 68, 101, 0.7);
+            --text-main: #F4F1DE;
+            --text-muted: #B3AEBC;
+            --primary: #9B82D3;
+            --secondary: #E5989B;
+            --nav-bg: rgba(45, 40, 62, 0.95);
+            background-image: radial-gradient(circle at top right, rgba(155, 130, 211, 0.15), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(229, 152, 155, 0.15), transparent 40%);
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--bg-color);
+            background-image: radial-gradient(circle at top left, rgba(255, 183, 178, 0.25), transparent 40%),
+                              radial-gradient(circle at bottom right, rgba(176, 136, 249, 0.25), transparent 40%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            padding-bottom: 110px;
+            overflow-x: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Bubbly Glass Card */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(176, 136, 249, 0.08);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+        }
+        body.dark-mode .glass-card {
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .diary-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(176, 136, 249, 0.2);
+        }
+
+        .page-title {
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Bottom Navigation - Floating Pill */
+        .bottom-nav {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            max-width: 450px;
+            background: var(--nav-bg);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            z-index: 1000;
+            box-shadow: 0 15px 35px rgba(176, 136, 249, 0.15);
+            border-radius: 40px; 
+            transition: background 0.3s ease;
+        }
+        body.dark-mode .bottom-nav { border-color: rgba(255,255,255,0.05); }
+
+        .nav-item {
+            text-align: center;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+        }
+        .nav-item i { font-size: 1.5rem; margin-bottom: 2px; }
+        .nav-item span { font-size: 0.75rem; font-weight: 700; }
+        .nav-item.active {
+            color: var(--primary);
+            transform: translateY(-6px) scale(1.1);
+        }
+
+        /* Floating Action Button */
+        .fab-wrapper {
+            position: fixed;
+            bottom: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1010;
+        }
+        .fab {
+            width: 65px; height: 65px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 12px 25px rgba(176, 136, 249, 0.5);
+            cursor: pointer; border: 4px solid var(--bg-color);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .fab:hover, .fab:active {
+            transform: scale(1.1) rotate(15deg);
+        }
+        .nav-spacer { width: 70px; }
+
+        /* Cute Form Inputs */
+        .form-control {
+            border-radius: 20px;
+            border: 2px solid rgba(176, 136, 249, 0.2);
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.7);
+            color: var(--text-main);
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .form-control:focus {
+            box-shadow: 0 0 0 0.3rem rgba(176, 136, 249, 0.25);
+            border-color: var(--primary);
+            background: var(--card-bg);
+        }
+        body.dark-mode .form-control {
+            background: rgba(0,0,0,0.2); border-color: rgba(255,255,255,0.1); color: var(--text-main);
+        }
+        body.dark-mode .input-group-text { background: rgba(0,0,0,0.2) !important; border:none; }
+        body.dark-mode .list-group-item { color: var(--text-main) !important; }
+        body.dark-mode .bi-moon-stars { color: #f0f0f0 !important; }
+
+        /* Overlays & Login Screen */
+        .full-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg-color); z-index: 10000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.4s ease-out;
+            padding: 20px;
+        }
+        /* Fix for dead button - ensure pointer events are correct */
+        #view-login { pointer-events: auto; }
+
+        /* Cute Spinner */
+        .spinner-pulse {
+            width: 80px; height: 80px; border-radius: 50%; 
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            animation: pulse 1.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        /* Header App Bar */
+        .top-header {
+            padding: 20px 20px 5px; display: flex; justify-content: space-between; align-items: center;
+            background: transparent; position: sticky; top: 0; z-index: 900;
+        }
+        .user-avatar {
+            width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 3px solid #fff;
+            box-shadow: 0 5px 15px rgba(176, 136, 249, 0.4); cursor: pointer;
+        }
+        body.dark-mode .user-avatar { border-color: var(--primary); }
+
+        .btn-pastel {
+            background: var(--primary); color: white; border: none; font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-pastel:hover, .btn-pastel:active {
+            transform: scale(1.05); background: var(--secondary); box-shadow: 0 10px 20px rgba(176, 136, 249, 0.4);
+        }
+        
+        /* Typography adjustments */
+        h1, h2, h3, h4, h5, h6 { font-weight: 700; letter-spacing: -0.5px; }
+
+        /* Mood Picker */
+        .mood-container { display: flex; gap: 15px; overflow-x: auto; padding: 15px 5px; scrollbar-width: none; }
+        .mood-container::-webkit-scrollbar { display: none; }
+        .mood-option {
+            font-size: 3rem; cursor: pointer; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); filter: grayscale(100%) opacity(0.4);
+        }
+        .mood-option.selected {
+            filter: grayscale(0%) opacity(1); transform: scale(1.3) translateY(-5px);
+        }
+
+        /* Tags */
+        .badge-tag {
+            background: var(--accent); color: var(--text-main); font-weight: 700;
+            border-radius: 12px; padding: 6px 12px; font-size: 0.8rem;
+            box-shadow: 0 2px 10px rgba(255, 218, 193, 0.5);
+        }
+        body.dark-mode .badge-tag { background: rgba(229, 152, 155, 0.2); color: var(--secondary); box-shadow: none; }
+        
+        /* Gallery */
+        .gallery-grid { column-count: 2; column-gap: 15px; }
+        .gallery-item { break-inside: avoid; margin-bottom: 15px; border-radius: 20px; overflow: hidden; }
+        .gallery-item img { width: 100%; display: block; object-fit: cover; }
+    </style>
+</head>
+<body>
+
+    <!-- VIEW: LOGIN (SaaS Landing Page) -->
+    <div id="view-login" class="full-overlay">
+        <div class="glass-card text-center p-5 w-100" style="max-width: 380px; border-radius: 35px;">
+            <div class="mb-3">
+                <div style="font-size: 5rem; animation: pulse 3s infinite;">🌸</div>
+            </div>
+            <h2 class="fw-bold mb-2" style="background: linear-gradient(45deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 2.8rem;">Dayzy</h2>
+            <p class="text-muted mb-4 fw-bold" style="font-size: 0.95rem;">Safe space buat cerita dan kenanganmu. 100% rahasia! 🤫</p>
+            <!-- Tombol Buka Jurnal telah diperbaiki z-index & event listenernya -->
+            <button class="btn btn-pastel w-100 rounded-pill py-3 fw-bold shadow-sm" onclick="doLogin()">
+                Buka Jurnalku 💖
+            </button>
+            <p class="mt-3 small text-muted fw-bold" style="font-size: 0.75rem; opacity: 0.7;">*Menyimpan di Cloud Dayzy</p>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="full-overlay" style="display: none; z-index: 9999;">
+        <div class="spinner-pulse"></div>
+        <h4 class="mt-4 fw-bold" style="color: var(--primary)">Dayzy</h4>
+        <p class="text-muted small fw-bold">Membuka memori...</p>
+    </div>
+
+    <!-- App Container -->
+    <div id="app-container" class="d-none">
+        
+        <!-- Header -->
+        <header class="top-header">
+            <div>
+                <h4 class="m-0 fw-bold" id="greetingTitle" style="color: var(--text-main);">Halo! 👋</h4>
+                <small class="text-muted fw-bold" id="headerDate">Hari ini</small>
+            </div>
+            <img src="https://placehold.co/100xFFB7B2/5D576B?text=Hi" id="header-avatar" alt="Profile" class="user-avatar" onclick="switchTab('profile')">
+        </header>
+
+        <main class="container py-3">
+            
+            <!-- VIEW: HOME -->
+            <section id="view-home">
+                <div class="row mb-4">
+                    <div class="col-6 pe-2">
+                        <div class="glass-card text-center p-3 h-100 d-flex flex-column justify-content-center align-items-center">
+                            <div class="mb-2" style="width: 55px; height: 55px; background: var(--accent); border-radius: 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(255, 218, 193, 0.5);">
+                                <i class="bi bi-journal-text fs-3" style="color: var(--text-main)"></i>
+                            </div>
+                            <h2 class="fw-bold mt-1 mb-0" id="stat-total" style="color: var(--primary);">0</h2>
+                            <small class="text-muted fw-bold">Total Cerita</small>
+                        </div>
+                    </div>
+                    <div class="col-6 ps-2">
+                        <div class="glass-card text-center p-3 h-100 d-flex flex-column justify-content-center align-items-center">
+                             <div class="mb-2" style="width: 55px; height: 55px; background: var(--success); border-radius: 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(181, 234, 215, 0.5);">
+                                <i class="bi bi-fire fs-3" style="color: var(--text-main)"></i>
+                            </div>
+                            <h2 class="fw-bold mt-1 mb-0" style="color: var(--primary);">12</h2>
+                            <small class="text-muted fw-bold">Day Streak</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card mb-4" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; border-radius: 24px; position: relative; overflow: hidden;">
+                    <div class="d-flex justify-content-between align-items-center position-relative" style="z-index: 1;">
+                        <div>
+                            <h5 class="mb-1 fw-bold">Random Memory 💭</h5>
+                            <p class="mb-0 small fw-bold" style="opacity: 0.9;">Tahun lalu di hari yang sama...</p>
+                        </div>
+                        <i class="bi bi-arrow-right-circle-fill fs-1" style="color: rgba(255,255,255,0.8);"></i>
+                    </div>
+                    <!-- Decorative element -->
+                    <div style="position: absolute; right: -20px; bottom: -30px; font-size: 7rem; opacity: 0.15; transform: rotate(-15deg);">✨</div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-end mb-3 px-2">
+                    <h5 class="fw-bold m-0" style="color: var(--text-main);">Catatan Terakhir</h5>
+                    <small class="fw-bold" style="cursor: pointer; color: var(--primary);" onclick="switchTab('timeline')">Lihat Semua</small>
+                </div>
+                
+                <div id="recent-diaries"></div>
+            </section>
+
+            <!-- VIEW: TIMELINE -->
+            <section id="view-timeline" class="d-none">
+                <h2 class="page-title mb-4">Timeline Perjalananmu</h2>
+                
+                <div class="input-group mb-4" style="border-radius: 20px; overflow: hidden; box-shadow: 0 5px 15px rgba(176, 136, 249, 0.1);">
+                    <span class="input-group-text border-0" style="background: rgba(255,255,255,0.7);"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" class="form-control border-0" id="searchInput" placeholder="Cari kenangan..." onkeyup="searchDiary()">
+                </div>
+
+                <div id="timeline-container"></div>
+            </section>
+
+            <!-- VIEW: ADD DIARY -->
+            <section id="view-add" class="d-none">
+                <h2 class="page-title mb-4">Tulis Hari Ini ✨</h2>
+                
+                <div class="glass-card">
+                    <form id="form-diary" onsubmit="saveData(event)">
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-bold">BAGAIMANA PERASAANMU?</label>
+                            <div class="mood-container" id="mood-picker">
+                                <span class="mood-option selected" data-mood="😄" onclick="selectMood(this)">😄</span>
+                                <span class="mood-option" data-mood="🥰" onclick="selectMood(this)">🥰</span>
+                                <span class="mood-option" data-mood="😌" onclick="selectMood(this)">😌</span>
+                                <span class="mood-option" data-mood="😎" onclick="selectMood(this)">😎</span>
+                                <span class="mood-option" data-mood="😐" onclick="selectMood(this)">😐</span>
+                                <span class="mood-option" data-mood="😢" onclick="selectMood(this)">😢</span>
+                                <span class="mood-option" data-mood="😡" onclick="selectMood(this)">😡</span>
+                                <span class="mood-option" data-mood="🤯" onclick="selectMood(this)">🤯</span>
+                            </div>
+                            <input type="hidden" id="input-mood" value="😄" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="date" class="form-control fw-bold" id="input-date" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="input-title" placeholder="Beri judul momen ini..." required style="font-size: 1.1rem;">
+                        </div>
+
+                        <div class="mb-3">
+                            <textarea class="form-control" id="input-content" rows="6" placeholder="Ceritakan detailnya di sini..." required></textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <input type="text" class="form-control" id="input-tags" placeholder="Tags (koma dipisah) contoh: kampus, nongkrong">
+                        </div>
+
+                        <div class="mb-4 p-4 text-center" style="background: rgba(255,255,255,0.4); border: 2px dashed var(--primary); border-radius: 24px; cursor: pointer; transition: all 0.3s;">
+                            <div style="font-size: 3rem; margin-bottom: 5px;">📸</div>
+                            <p class="mb-0 fw-bold" style="color: var(--primary);">Tambah Foto Aesthetic</p>
+                            <p class="small text-muted mt-1 fw-bold">Bisa langsung dari HP/Drive (Coming Soon)</p>
+                        </div>
+
+                        <button type="submit" class="btn btn-pastel w-100 rounded-pill py-3 fw-bold shadow-sm">
+                            <i class="bi bi-journal-check me-2"></i> Simpan Kenangan
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- VIEW: GALLERY -->
+            <section id="view-gallery" class="d-none">
+                <h2 class="page-title mb-4">Galeri Kenangan 📸</h2>
+                <div class="gallery-grid" id="gallery-container"></div>
+            </section>
+
+            <!-- VIEW: PROFILE -->
+            <section id="view-profile" class="d-none">
+                <div class="text-center mb-4 pt-3">
+                    <div style="position: relative; display: inline-block;">
+                         <img src="https://placehold.co/120xFFB7B2/5D576B?text=Hi" id="main-avatar" alt="Profile" style="border-radius: 40px; box-shadow: 0 15px 35px rgba(255, 183, 178, 0.4); margin-bottom: 15px; border: 4px solid #fff; width: 120px; height: 120px; object-fit: cover;">
+                         <div style="position: absolute; bottom: 5px; right: -5px; background: var(--success); padding: 5px; border-radius: 50%; font-size: 1.5rem; border: 4px solid #fff;">✨</div>
+                    </div>
+                    <h3 class="fw-bold mb-1" style="color: var(--text-main);" id="profile-name">Pengguna Dayzy</h3>
+                    <p class="text-muted fw-bold" id="profile-email">zidan@dayzy.app</p>
+                </div>
+
+                <div class="glass-card">
+                    <div class="list-group list-group-flush bg-transparent fw-bold">
+                        <button class="list-group-item list-group-item-action bg-transparent d-flex justify-content-between align-items-center py-3 border-bottom border-light" onclick="toggleDarkMode()">
+                            <span><i class="bi bi-moon-stars text-dark me-2" id="dark-icon"></i> Tampilan Gelap</span>
+                            <div class="form-check form-switch m-0">
+                                <input class="form-check-input" type="checkbox" id="darkModeSwitch" style="pointer-events: none;">
+                            </div>
+                        </button>
+
+                        <button class="list-group-item list-group-item-action bg-transparent d-flex justify-content-between align-items-center py-3 border-bottom border-light">
+                            <span><i class="bi bi-cloud-check text-primary me-2"></i> Auto-Sync API</span>
+                            <span class="badge bg-success rounded-pill px-3 py-2">Aktif</span>
+                        </button>
+                        
+                        <button class="list-group-item list-group-item-action bg-transparent d-flex justify-content-between align-items-center py-3" style="color: var(--secondary);" onclick="logout()">
+                            <span><i class="bi bi-box-arrow-right me-2"></i> Keluar</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Bottom Navigation & FAB -->
+        <div class="fab-wrapper">
+            <button class="fab" onclick="switchTab('add')">
+                <i class="bi bi-plus-lg"></i>
+            </button>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" id="nav-home" onclick="switchTab('home')">
+                <i class="bi bi-house-door"></i><span>Home</span>
+            </a>
+            <a href="#" class="nav-item" id="nav-timeline" onclick="switchTab('timeline')">
+                <i class="bi bi-calendar-event"></i><span>Timeline</span>
+            </a>
+            <div class="nav-spacer"></div>
+            <a href="#" class="nav-item" id="nav-gallery" onclick="switchTab('gallery')">
+                <i class="bi bi-images"></i><span>Gallery</span>
+            </a>
+            <a href="#" class="nav-item" id="nav-profile" onclick="switchTab('profile')">
+                <i class="bi bi-person"></i><span>Profile</span>
+            </a>
+        </nav>
+
+    </div>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        /**
+         * PENTING UNTUK DEPLOY KE VERCEL!
+         * Masukkan URL Web App Google Apps Script Anda di sini.
+         * Jika dikosongkan, aplikasi akan otomatis masuk ke Mode Simulasi (Dummy).
+         */
+        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzkXQ2prtwSvbQuVisnUccukuJKU7RoO4eiIYtXLa_SNLRjBa21XdhRUlJlc3BWA1LWKQ/exec"; 
+        
+        // State Management
+        let db = { diaries: [] };
+        // Mode Simulasi aktif jika API URL kosong.
+        let isSimulation = GAS_API_URL === ""; 
+        let currentUserEmail = localStorage.getItem('dayzy_user') || "";
+
+        const dummyData = [
+            {
+                ID: "DIA-1", User: "demo@dayzy.app", Date: "2026-06-25", Title: "Nongkrong Aesthetic", Mood: "😎",
+                Content: "Hari ini seru banget! Ketemu bestie di kafe pastel baru. Kopinya enak, vibesnya cocok buat foto-foto. UI/UX barunya cakep parah!",
+                Tags: "hangout, aesthetic", Images: '["https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=500&q=80"]', Timestamp: new Date().toISOString()
+            },
+            {
+                ID: "DIA-2", User: "demo@dayzy.app", Date: "2026-06-24", Title: "Tugas Selesai!", Mood: "🥰",
+                Content: "Akhirnya revisian kelar. Perjuangan begadang berhari-hari terbayar sudah. Saatnya me time nonton drakor seharian.",
+                Tags: "college, happy", Images: '[]', Timestamp: new Date(new Date().getTime() - 86400000).toISOString()
+            }
+        ];
+
+        // INITIALIZATION
+        window.onload = () => {
+            // Dark Mode check
+            if(localStorage.getItem('dayzy_theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('darkModeSwitch').checked = true;
+            }
+
+            document.getElementById('headerDate').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('input-date').valueAsDate = new Date();
+
+            // Jika sudah ada session di localStorage, langsung masuk
+            if (currentUserEmail) {
+                document.getElementById('view-login').style.display = 'none';
+                loadData();
+            }
+        };
+
+        // --- AUTH LOGIC (SaaS Vercel Ready) ---
+        function doLogin() {
+            // SweetAlert untuk simulasi input email SaaS
+            Swal.fire({
+                title: 'Masuk ke Dayzy 🌸',
+                text: 'Ketik email kamu untuk membuka ruang personalmu.',
+                input: 'email',
+                inputPlaceholder: 'contoh: zidan@mail.com',
+                confirmButtonColor: '#B088F9',
+                confirmButtonText: 'Buka Jurnal 💖',
+                showCancelButton: true,
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    currentUserEmail = result.value;
+                    localStorage.setItem('dayzy_user', currentUserEmail);
+                    
+                    document.getElementById('view-login').style.opacity = '0';
+                    setTimeout(() => {
+                        document.getElementById('view-login').style.display = 'none';
+                        loadData();
+                    }, 300);
+                }
+            });
+        }
+
+        function logout() {
+            localStorage.removeItem('dayzy_user');
+            currentUserEmail = "";
+            document.getElementById('app-container').classList.add('d-none');
+            document.getElementById('view-login').style.display = 'flex';
+            setTimeout(() => document.getElementById('view-login').style.opacity = '1', 50);
+            Swal.fire({icon: 'success', title: 'Berhasil Keluar', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500});
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            document.getElementById('darkModeSwitch').checked = isDark;
+            localStorage.setItem('dayzy_theme', isDark ? 'dark' : 'light');
+        }
+
+        function updateAvatar(email) {
+            let name = email.split('@')[0];
+            let url = `https://ui-avatars.com/api/?name=${name}&background=FFB7B2&color=5D576B&size=120&font-size=0.33`;
+            document.getElementById('header-avatar').src = url;
+            document.getElementById('main-avatar').src = url;
+            document.getElementById('profile-name').innerText = name.charAt(0).toUpperCase() + name.slice(1);
+            document.getElementById('profile-email').innerText = email;
+            document.getElementById('greetingTitle').innerText = `Halo, ${name}! 👋`;
+        }
+
+        // --- LOAD DATA (Fetch API Vercel) ---
+        function startLoading() {
+            document.getElementById('loading-overlay').style.display = 'flex';
+            setTimeout(() => document.getElementById('loading-overlay').style.opacity = '1', 10);
+        }
+
+        function endLoading() {
+            document.getElementById('loading-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loading-overlay').style.display = 'none';
+                document.getElementById('app-container').classList.remove('d-none');
+            }, 300);
+        }
+
+        function loadData() {
+            startLoading();
+            updateAvatar(currentUserEmail);
+
+            if (isSimulation) {
+                // Dummy Mode for Canvas/Local Testing without API
+                setTimeout(() => {
+                    db.diaries = JSON.parse(JSON.stringify(dummyData));
+                    renderUI();
+                    endLoading();
+                }, 800);
+            } else {
+                // VERCEL MODE: Fetch dari Google Apps Script API
+                const requestBody = {
+                    action: "getAllData",
+                    userEmail: currentUserEmail
+                };
+
+                // Menggunakan text/plain untuk menghindari preflight CORS di GAS
+                fetch(GAS_API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(requestBody)
+                })
+                .then(response => response.json())
+                .then(res => {
+                    if(res.status === 'success') {
+                        db.diaries = res.diaries;
+                        renderUI();
+                    } else {
+                        Swal.fire('Error', res.message, 'error');
+                    }
+                    endLoading();
+                })
+                .catch(err => {
+                    console.error(err);
+                    Swal.fire('Koneksi Gagal', 'Gagal terhubung ke Database API.', 'error');
+                    endLoading();
+                });
+            }
+        }
+
+        // --- RENDER LOGIC ---
+        function renderUI() {
+            renderHome();
+            renderTimeline(db.diaries);
+            renderGallery();
+            document.getElementById('stat-total').innerText = db.diaries.length;
+        }
+
+        function renderHome() {
+            const container = document.getElementById('recent-diaries');
+            container.innerHTML = '';
+            const recent = db.diaries.slice(0, 2);
+            if(recent.length === 0) {
+                container.innerHTML = `<div class="text-center text-muted p-4 fw-bold">Belum ada jurnal. Yuk tulis!</div>`;
+                return;
+            }
+            recent.forEach(item => container.innerHTML += createDiaryCard(item));
+        }
+
+        function renderTimeline(dataToRender) {
+            const container = document.getElementById('timeline-container');
+            container.innerHTML = '';
+            if(dataToRender.length === 0) {
+                container.innerHTML = `<div class="text-center text-muted p-5 fw-bold">Tidak ada jurnal ditemukan.</div>`;
+                return;
+            }
+            dataToRender.forEach(item => container.innerHTML += createDiaryCard(item));
+        }
+
+        function renderGallery() {
+            const container = document.getElementById('gallery-container');
+            container.innerHTML = '';
+            let hasImage = false;
+            db.diaries.forEach(item => {
+                let images = [];
+                try { images = JSON.parse(item.Images); } catch(e){}
+                if(images && images.length > 0) {
+                    hasImage = true;
+                    images.forEach(img => container.innerHTML += `<div class="gallery-item"><img src="${img}" alt="Memori"></div>`);
+                }
+            });
+            if(!hasImage) container.innerHTML = `<div class="text-muted w-100 mt-4 fw-bold text-center">Belum ada foto diunggah.</div>`;
+        }
+
+        function createDiaryCard(item) {
+            let images = [];
+            try { images = JSON.parse(item.Images); } catch(e){}
+            let imgHtml = (images && images.length > 0) ? `<img src="${images[0]}" class="w-100 mb-3" style="border-radius: 20px; max-height: 200px; object-fit: cover; border: 2px solid rgba(255,255,255,0.5);" alt="Foto Momen">` : '';
+            let tagsHtml = item.Tags ? item.Tags.split(',').map(t => `<span class="badge-tag me-1 mb-1 d-inline-block">#${t.trim()}</span>`).join('') : '';
+
+            return `
+                <div class="glass-card diary-card position-relative">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div class="d-flex align-items-center">
+                            <span class="fs-1 me-3 lh-1">${item.Mood}</span>
+                            <div>
+                                <h5 class="fw-bold m-0" style="color: var(--text-main);">${item.Title}</h5>
+                                <small class="text-muted fw-bold"><i class="bi bi-clock me-1"></i>${new Date(item.Date).toLocaleDateString('id-ID')}</small>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm rounded-circle text-danger" style="background: rgba(255, 183, 178, 0.3); border: none; width: 35px; height: 35px;" onclick="deleteDiary('${item.ID}')"><i class="bi bi-trash"></i></button>
+                    </div>
+                    ${imgHtml}
+                    <p class="mt-2 mb-2" style="color: var(--text-muted); font-weight: 500; font-size: 0.95rem; line-height: 1.6;">${item.Content}</p>
+                    <div class="mt-2">${tagsHtml}</div>
+                </div>
+            `;
+        }
+
+        // SPA Navigation
+        function switchTab(tabId) {
+            ['home', 'timeline', 'add', 'gallery', 'profile'].forEach(id => document.getElementById(`view-${id}`).classList.add('d-none'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(`view-${tabId}`).classList.remove('d-none');
+            const navBtn = document.getElementById(`nav-${tabId}`);
+            if(navBtn) navBtn.classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function selectMood(element) {
+            document.querySelectorAll('.mood-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('input-mood').value = element.getAttribute('data-mood');
+        }
+
+        function searchDiary() {
+            const keyword = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = db.diaries.filter(item => 
+                item.Title.toLowerCase().includes(keyword) || item.Content.toLowerCase().includes(keyword) || (item.Tags && item.Tags.toLowerCase().includes(keyword))
+            );
+            renderTimeline(filtered);
+        }
+
+        // --- CRUD: CREATE (Fetch API) ---
+        function saveData(e) {
+            e.preventDefault();
+            const btnSubmit = document.querySelector('button[type="submit"]');
+            btnSubmit.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan...`;
+            btnSubmit.disabled = true;
+
+            const newData = {
+                date: document.getElementById('input-date').value,
+                title: document.getElementById('input-title').value,
+                mood: document.getElementById('input-mood').value,
+                content: document.getElementById('input-content').value,
+                tags: document.getElementById('input-tags').value,
+                images: []
+            };
+
+            if (isSimulation) {
+                setTimeout(() => {
+                    db.diaries.unshift({
+                        ID: "DIA-" + new Date().getTime(), User: currentUserEmail, Date: newData.date, Title: newData.title,
+                        Mood: newData.mood, Content: newData.content, Tags: newData.tags, Images: "[]", Timestamp: new Date().toISOString()
+                    });
+                    renderUI();
+                    Swal.fire({icon: 'success', title: 'Tersimpan!', showConfirmButton: false, timer: 1500, toast: true, position: 'top-end'});
+                    document.getElementById('form-diary').reset();
+                    btnSubmit.innerHTML = `<i class="bi bi-journal-check me-2"></i> Simpan Kenangan`;
+                    btnSubmit.disabled = false;
+                    switchTab('home');
+                }, 1000);
+            } else {
+                const requestBody = {
+                    action: "saveDiary",
+                    userEmail: currentUserEmail,
+                    payload: newData
+                };
+
+                fetch(GAS_API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(requestBody)
+                })
+                .then(res => res.json())
+                .then(res => {
+                    btnSubmit.innerHTML = `<i class="bi bi-journal-check me-2"></i> Simpan Kenangan`;
+                    btnSubmit.disabled = false;
+                    if(res.status === 'success') {
+                        Swal.fire({icon: 'success', title: 'Tersimpan!', showConfirmButton: false, timer: 1500, toast: true, position: 'top-end'});
+                        document.getElementById('form-diary').reset();
+                        loadData(); // reload
+                        switchTab('home');
+                    } else {
+                        Swal.fire('Error', res.message, 'error');
+                    }
+                });
+            }
+        }
+
+        // --- CRUD: DELETE (Fetch API) ---
+        function deleteDiary(id) {
+            Swal.fire({
+                title: 'Hapus kenangan?', text: "Data tidak bisa kembali lho.", icon: 'warning', showCancelButton: true,
+                confirmButtonColor: '#ff6b6b', cancelButtonColor: '#636e72', confirmButtonText: 'Hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (isSimulation) {
+                        db.diaries = db.diaries.filter(item => item.ID !== id);
+                        renderUI();
+                        Swal.fire({icon: 'success', title: 'Terhapus!', showConfirmButton: false, timer: 1000, toast: true, position: 'top-end'});
+                    } else {
+                        startLoading();
+                        fetch(GAS_API_URL, {
+                            method: 'POST',
+                            body: JSON.stringify({ action: "deleteDiary", userEmail: currentUserEmail, payload: { id: id } })
+                        })
+                        .then(res => res.json())
+                        .then(res => {
+                            if(res.status === 'success') {
+                                Swal.fire({icon: 'success', title: 'Terhapus!', showConfirmButton: false, timer: 1000, toast: true, position: 'top-end'});
+                                loadData();
+                            } else {
+                                Swal.fire('Error', res.message, 'error');
+                                endLoading();
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
