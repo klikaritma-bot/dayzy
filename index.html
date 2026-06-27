@@ -15,7 +15,6 @@
     
     <style>
         :root {
-            /* Tema Pastel */
             --primary: #b19cd9; /* Pastel Purple */
             --secondary: #ffb7b2; /* Pastel Pink */
             --accent: #ffdac1; /* Pastel Peach */
@@ -37,14 +36,13 @@
             --nav-bg: rgba(45, 45, 60, 0.95);
         }
 
-        /* PERBAIKAN PLACEHOLDER DARK MODE (SUPER FORCED) */
+        /* Perbaikan Placeholder untuk Dark Mode (Di-Forced) */
         body.dark-mode input::placeholder, 
         body.dark-mode textarea::placeholder,
         body.dark-mode .form-control::placeholder {
             color: #ffffff !important;
             opacity: 1 !important;
         }
-
         body.dark-mode ::-webkit-input-placeholder { color: #ffffff !important; opacity: 1 !important; }
         body.dark-mode :-moz-placeholder { color: #ffffff !important; opacity: 1 !important; }
         body.dark-mode ::-moz-placeholder { color: #ffffff !important; opacity: 1 !important; }
@@ -102,7 +100,7 @@
             left: 50%;
             transform: translateX(-50%);
             width: 90%;
-            max-width: 400px;
+            max-width: 400px; /* Lebar maksimal layaknya HP */
             background: var(--nav-bg);
             backdrop-filter: blur(15px);
             display: flex;
@@ -163,10 +161,18 @@
         .full-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: var(--bg-color); 
-            z-index: 1040; /* Agar SweetAlert (1060) tampil di atasnya */
+            z-index: 1040; /* Z-Index diatur agar popup SweetAlert(1060) tampil di atas */
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             transition: opacity 0.4s ease;
         }
+        
+        /* Container Landing Page (Mobile First) */
+        .landing-container {
+            max-width: 400px; 
+            width: 90%; 
+            margin: 0 auto;
+        }
+
         .spinner-pulse {
             width: 70px; height: 70px; border-radius: 50%; 
             background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -181,7 +187,12 @@
         .top-header {
             padding: 25px 20px 10px; display: flex; justify-content: space-between; align-items: center;
             background: transparent; position: sticky; top: 0; z-index: 900;
+            max-width: 800px; margin: 0 auto;
         }
+        .app-content-container {
+            max-width: 800px; margin: 0 auto;
+        }
+        
         .user-avatar {
             width: 45px; height: 45px; border-radius: 15px; object-fit: cover; 
             border: 2px solid var(--secondary); box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer;
@@ -200,6 +211,12 @@
             padding: 12px; box-shadow: 0 5px 15px rgba(255, 183, 178, 0.4); transition: transform 0.2s;
         }
         .btn-cute:hover, .btn-cute:active { transform: scale(1.02); background: #ffaa99; color: white; }
+        
+        .btn-outline-cute {
+            background: transparent; color: var(--primary); border: 2px solid var(--primary); border-radius: 20px; font-weight: 700;
+            padding: 12px; transition: transform 0.2s;
+        }
+        .btn-outline-cute:hover { background: rgba(177, 156, 217, 0.1); transform: scale(1.02); }
 
         /* Masonry Gallery & Mood Picker */
         .mood-container { display: flex; gap: 15px; overflow-x: auto; padding: 10px 5px; scrollbar-width: none; }
@@ -214,24 +231,50 @@
 </head>
 <body>
 
-    <!-- VIEW: LOGIN (SaaS Landing Page) -->
-    <div id="view-login" class="full-overlay" style="z-index: 1040;">
-        <div class="glass-card text-center p-5" style="max-width: 400px; width: 90%; margin-top: -50px;">
+    <!-- VIEW: LOGIN / LANDING PAGE (SaaS Marketing) -->
+    <div id="view-login" class="full-overlay">
+        <div class="landing-container glass-card text-center p-4" style="max-height: 95vh; overflow-y: auto; scrollbar-width: none;">
             <div class="mb-3" style="animation: bounce 2s infinite;">
-                <span style="font-size: 5rem;">🌸</span>
+                <span style="font-size: 4.5rem;">🌸</span>
             </div>
             <h1 class="fw-bold mb-2" style="color: var(--primary); font-size: 2.5rem;">Dayzy</h1>
-            <p class="text-muted mb-4" style="font-weight: 500;">Safe space buat cerita dan kenanganmu. 100% rahasia! 🤫</p>
+            <p class="text-muted mb-4" style="font-weight: 500; font-size: 0.9rem;">
+                Safe space buat cerita dan kenanganmu. 100% rahasia, tersimpan aman di Cloud! ☁️
+            </p>
             
-            <button class="btn-cute w-100" onclick="doLogin()">
-                Buka Jurnalku 💖
+            <!-- Tombol Utama -->
+            <button class="btn-cute w-100 mb-3" style="background: var(--primary);" onclick="doLogin()">
+                <i class="bi bi-key me-2"></i> Punya Lisensi? Masuk
             </button>
-            <p class="mt-3 text-muted" style="font-size: 0.75rem;">
-    Dengan masuk, Anda setuju dengan <a href="#" onclick="showPolicy()" class="text-primary text-decoration-none">Kebijakan Privasi kami</a>.
-</p>
-            <div class="mt-4">
-                <small class="text-muted d-block" style="font-size: 0.7rem; opacity: 0.8;">Developed by Arielyn Gracevania</small>
-                <small class="text-muted d-block" style="font-size: 0.7rem; opacity: 0.8;">WA: 0831-3062-1730</small>
+            
+            <div class="d-flex gap-2 mb-4">
+                <button class="btn-outline-cute w-50" onclick="startDemo()">
+                    <i class="bi bi-play-circle me-1"></i> Demo
+                </button>
+                <button class="btn-cute w-50" style="background: var(--success);" onclick="showPayment()">
+                    <i class="bi bi-bag-heart-fill me-1"></i> Beli Dayzy
+                </button>
+            </div>
+
+            <!-- PROMOSI & BENEFIT (Baru ditambahkan) -->
+            <div class="text-start p-3 mb-3" style="background: rgba(177, 156, 217, 0.1); border-radius: 15px; border: 1px dashed var(--primary);">
+                <h6 class="fw-bold mb-2" style="color: var(--primary); font-size: 0.9rem;">Kenapa harus pakai Dayzy? ✨</h6>
+                <ul class="list-unstyled mb-2" style="font-size: 0.8rem; color: var(--text-main);">
+                    <li class="mb-2"><i class="bi bi-shield-lock-fill text-success me-2"></i><strong>100% Privat:</strong> Bebas curhat overthinking tanpa takut dibaca orang lain.</li>
+                    <li class="mb-2"><i class="bi bi-cloud-arrow-up-fill text-primary me-2"></i><strong>Anti-Hilang:</strong> Memori tersimpan aman di Cloud walau ganti HP.</li>
+                    <li class="mb-0"><i class="bi bi-stars text-warning me-2"></i><strong>Aesthetic & Healing:</strong> Desain pastel yang lucu bikin mood nulis naik!</li>
+                </ul>
+                <div class="text-center mt-3 pt-2" style="border-top: 1px solid rgba(177, 156, 217, 0.3);">
+                    <p class="mb-0 fw-bold" style="font-size: 0.85rem; color: var(--secondary);">Bayar sekali, akses selamanya! 💖</p>
+                </div>
+            </div>
+            
+            <hr style="opacity: 0.2;">
+            <div class="mt-3">
+                <small class="text-muted d-block" style="font-size: 0.75rem; opacity: 0.8;">Developed by Arielyn Gracevania<br>WA: 0831-3062-1730</small>
+                <small class="mt-2 d-block">
+                    <a href="#" onclick="showPolicy()" class="text-primary text-decoration-none fw-bold" style="font-size: 0.75rem;">Syarat & Kebijakan Privasi</a>
+                </small>
             </div>
         </div>
     </div>
@@ -255,7 +298,7 @@
             <img src="https://ui-avatars.com/api/?name=User&background=ffb7b2&color=fff" id="header-avatar" alt="Profile" class="user-avatar" onclick="switchTab('profile')">
         </header>
 
-        <main class="container py-3">
+        <main class="container py-3 app-content-container">
             
             <!-- VIEW: HOME -->
             <section id="view-home">
@@ -320,6 +363,7 @@
                                 <span class="mood-option" data-mood="😌" onclick="selectMood(this)">😌</span>
                                 <span class="mood-option" data-mood="😢" onclick="selectMood(this)">😢</span>
                                 <span class="mood-option" data-mood="😡" onclick="selectMood(this)">😡</span>
+                                <span class="mood-option" data-mood="🤯" onclick="selectMood(this)">🤯</span>
                             </div>
                             <input type="hidden" id="input-mood" value="😄" required>
                         </div>
@@ -343,7 +387,7 @@
                         <div class="mb-4 text-center">
                             <label for="diary-photo-upload" class="d-block p-4" style="border: 2px dashed rgba(177, 156, 217, 0.5); border-radius: 20px; cursor: pointer; background: rgba(177, 156, 217, 0.05);">
                                 <i class="bi bi-camera-fill fs-1" style="color: var(--primary);"></i>
-                                <p class="mb-0 small fw-bold text-muted mt-2">Tambah Foto Aesthetic<br><span style="font-size: 0.65rem">(Bisa langsung dari HP)</span></p>
+                                <p class="mb-0 small fw-bold text-muted mt-2">Tambah Foto Aesthetic<br><span style="font-size: 0.65rem">(Otomatis dikompres agar tidak lag)</span></p>
                             </label>
                             <input type="file" id="diary-photo-upload" class="d-none" accept="image/*" onchange="handleDiaryPhotoUpload(event)">
                             <input type="hidden" id="input-base64-image" value="">
@@ -401,6 +445,10 @@
 
                 <div class="glass-card">
                     <div class="list-group list-group-flush bg-transparent">
+                        <button class="list-group-item list-group-item-action border-0 d-flex justify-content-between align-items-center py-3 border-bottom border-light" onclick="showPolicy()">
+                            <span class="fw-bold"><i class="bi bi-shield-lock text-primary me-2"></i> Syarat & Privasi</span>
+                            <i class="bi bi-chevron-right text-muted"></i>
+                        </button>
                         <button class="list-group-item list-group-item-action border-0 d-flex justify-content-between align-items-center py-3" onclick="toggleDarkMode()">
                             <span class="fw-bold"><i class="bi bi-moon-stars me-2"></i> Tampilan Gelap</span>
                             <div class="form-check form-switch m-0">
@@ -412,16 +460,6 @@
                         </button>
                     </div>
                 </div>
-            <div class="glass-card">
-    <div class="list-group list-group-flush bg-transparent">
-        
-        <!-- Tambahkan Baris ini -->
-        <button class="list-group-item list-group-item-action bg-transparent d-flex justify-content-between align-items-center py-3 border-bottom border-light" onclick="showPolicy()">
-            <span><i class="bi bi-shield-lock text-primary me-2"></i> Privasi & Ketentuan</span>
-            <i class="bi bi-chevron-right text-muted"></i>
-        </button>
-
-        <button class="list-group-item list-group-item-action bg-transparent d-flex justify-content-between align-items-center py-3 border-bottom border-light" onclick="toggleDarkMode()"
             </section>
 
         </main>
@@ -446,15 +484,23 @@
     <!-- Application Logic -->
     <script>
         // --- KONFIGURASI API ---
-        // UBAH DENGAN URL DEPLOY CODE.GS YANG BARU:
+        // UBAH DENGAN URL DEPLOY CODE.GS ANDA:
         const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzHJyivjjFEWa0cTBhGe4UXoQXGlLVmrZ1di8DJRxw9TkDpb4Ef3VSypNG1lWcA4fdeuA/exec"; 
 
         // State Management
         let db = { diaries: [] };
-        let isSimulation = (GAS_API_URL === "" || GAS_API_URL === "ISI_DENGAN_URL_WEB_APP_GAS_ANDA_DISINI");
-        let currentLicenseKey = localStorage.getItem('dayzy_license') || ""; // Load sesi lisensi
+        let isDemoMode = false; // Flag untuk mode simulasi
+        let currentLicenseKey = localStorage.getItem('dayzy_license') || ""; 
         
         let userProfile = { name: "", dob: "", hobby: "", pic: "" };
+
+        // DUMMY DATA (Khusus Remaja GenZ 17 Thn - Hanya tampil di Mode Demo)
+        const dummyData = [
+            { ID: "DIA-001", User: "DEMO", Date: "2026-06-25", Title: "Pusing Banget Math!", Mood: "🤯", Content: "Tadi ulangan Matematika bener-bener di luar nalar. Kerasa banget otak nge-freeze pas ketemu soal logaritma. Mana deadline proyek kelompok dikumpulin besok pagi. Butuh asupan kopi dan sleep call biar agak tenang.", Tags: "school, stress", Images: '["https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=500&q=80"]', Timestamp: new Date().toISOString() },
+            { ID: "DIA-002", User: "DEMO", Date: "2026-06-24", Title: "Sore-sore hangout", Mood: "😄", Content: "Akhirnya bisa hangout bareng bestie setelah seminggu penuh tugas! Kita bahas soal universitas impian, curhat soal drama kelas, dan ketawa sampai sakit perut. Senang banget punya mereka, bener-bener healing.", Tags: "friends, healing", Images: '["https://images.unsplash.com/photo-1541167760496-1628856ab77a?auto=format&fit=crop&w=500&q=80"]', Timestamp: new Date(new Date().getTime() - 86400000).toISOString() },
+            { ID: "DIA-003", User: "DEMO", Date: "2026-06-22", Title: "Late Night Playlist", Mood: "😌", Content: "Lagi maskeran sambil dengerin lagu-lagu Indie favorit. Suasana tenang banget. Tiba-tiba kepikiran, nanti kuliah di mana ya? Berasa waktu lari kenceng banget.", Tags: "vibes, selfcare", Images: '[]', Timestamp: new Date(new Date().getTime() - 259200000).toISOString() },
+            { ID: "DIA-004", User: "DEMO", Date: "2026-06-20", Title: "Senyumnya itu lho...", Mood: "🥰", Content: "Duduk sebelahan pas di perpustakaan tadi. Dia nanya 'pinjem pulpen dong' doang, tapi jantung aku kayak mau copot! Gila sih, hari ini mood aku auto naik drastis banget. Apa ini yang namanya butterfly in my stomach?", Tags: "crush, butterfly", Images: '["https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=80"]', Timestamp: new Date(new Date().getTime() - 400000000).toISOString() }
+        ];
 
         // INITIALIZATION
         window.onload = () => {
@@ -466,14 +512,64 @@
             document.getElementById('headerDate').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             document.getElementById('input-date').valueAsDate = new Date();
 
-            // Auto Login jika Lisensi tersimpan
-            if (currentLicenseKey !== "" && !isSimulation) {
+            // Auto Login / Tampilkan Landing Page
+            if (currentLicenseKey !== "" && currentLicenseKey !== "DEMO") {
                 document.getElementById('view-login').style.display = 'none';
                 loadData();
-            } else if (isSimulation) {
-                // Biarkan di halaman login simulation
             }
         };
+
+        // --- MARKETING & BUSINESS LOGIC ---
+        function startDemo() {
+            isDemoMode = true;
+            currentLicenseKey = "DEMO";
+            document.getElementById('view-login').style.opacity = '0';
+            setTimeout(() => { document.getElementById('view-login').style.display = 'none'; loadData(); }, 300);
+        }
+
+        function showPayment() {
+            Swal.fire({
+                title: 'Berlangganan Dayzy 🌸',
+                html: `
+                    <div class="text-start small mt-3">
+                        <p>Dapatkan akses seumur hidup ke Cloud Jurnal Pribadimu dengan lisensi resmi.</p>
+                        <div class="p-3 mb-3 rounded" style="background: rgba(177, 156, 217, 0.1); border: 1px dashed var(--primary);">
+                            <h6 class="fw-bold mb-1">Rp 49.000 <span class="text-muted text-decoration-line-through" style="font-size:0.8rem;">Rp 150.000</span></h6>
+                            <span>Sekali bayar, akses selamanya!</span>
+                        </div>
+                        <p class="fw-bold mb-1">Cara Pembayaran:</p>
+                        <p class="mb-1">💳 BCA: 1234567890 (a.n Arielyn)</p>
+                        <p class="mb-3">📱 QRIS: Chat admin untuk barcode</p>
+                        <p>Kirim bukti transfer ke WA: <strong>0831-3062-1730</strong> untuk mendapatkan Kode Lisensi Anda.</p>
+                    </div>
+                `,
+                confirmButtonText: 'Tutup',
+                confirmButtonColor: '#b19cd9',
+                customClass: { popup: 'glass-card' }
+            });
+        }
+
+        // --- POLICIES ---
+        function showPolicy() {
+            Swal.fire({
+                title: 'Kebijakan Privasi & ToS',
+                html: `
+                    <div style="text-align: left; font-size: 0.9rem; max-height: 300px; overflow-y: auto;">
+                        <p><strong>Selamat datang di Dayzy!</strong></p>
+                        <p>Kami sangat menghargai privasi Anda. Sebagai jurnal digital, kami berkomitmen untuk:</p>
+                        <ul>
+                            <li><strong>Privasi Mutlak:</strong> Isi jurnal Anda adalah hak milik pribadi. Kami tidak akan membaca, membagikan, atau menjual data Anda.</li>
+                            <li><strong>Keamanan Cloud:</strong> Dayzy menggunakan infrastruktur Spreadsheet yang aman dan terisolasi untuk menyimpan data Anda.</li>
+                            <li><strong>Penggunaan Wajar:</strong> Aplikasi ini ditujukan untuk refleksi pribadi dan pengembangan diri.</li>
+                        </ul>
+                        <p>Dengan menggunakan Dayzy, Anda setuju bahwa Dayzy tidak bertanggung jawab atas kebocoran data yang disebabkan oleh kelalaian pengguna dalam membagikan kode lisensi kepada orang lain.</p>
+                    </div>
+                `,
+                confirmButtonText: 'Saya Mengerti',
+                confirmButtonColor: '#4a00e0',
+                customClass: { popup: 'glass-card' }
+            });
+        }
 
         // --- PROFILE LOGIC ---
         function loadLocalProfile() {
@@ -487,7 +583,7 @@
                     updateAvatar(currentLicenseKey || "User");
                 } catch(e) { console.error(e); }
             }
-            document.getElementById('profile-license-id').innerText = `Lisensi: ${currentLicenseKey || 'Mode Simulasi'}`;
+            document.getElementById('profile-license-id').innerText = `Lisensi: ${currentLicenseKey || 'Belum Login'}`;
         }
 
         function updateAvatar(identifier) {
@@ -525,7 +621,7 @@
                         try {
                             localStorage.setItem('dayzy_profile', JSON.stringify(userProfile));
                             Swal.fire({icon: 'success', title: 'Foto Diperbarui!', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500});
-                        } catch (err) { Swal.fire({icon: 'error', title: 'Ups!', text: 'Memori penuh, coba foto yang lebih kecil.'}); }
+                        } catch (err) { Swal.fire({icon: 'error', title: 'Ups!', text: 'Memori browser penuh. Kosongkan cache.'}); }
                     };
                     img.src = e.target.result;
                 };
@@ -540,20 +636,14 @@
                 userProfile.hobby = document.getElementById('input-profile-hobby').value;
                 localStorage.setItem('dayzy_profile', JSON.stringify(userProfile));
                 updateAvatar(currentLicenseKey);
-                Swal.fire({icon: 'success', title: 'Profil Tersimpan 🎀', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500});
-            } catch (error) { Swal.fire({icon: 'error', title: 'Ups!', text: 'Gagal menyimpan profil.'}); }
+                Swal.fire({icon: 'success', title: 'Profil Tersimpan!', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500});
+            } catch (error) { 
+                Swal.fire({icon: 'error', title: 'Gagal', text: 'Penyimpanan penuh karena foto terlalu besar.'}); 
+            }
         }
 
-        // --- AUTH LOGIC (LICENSE SYSTEM) ---
+        // --- AUTH LOGIC (LICENSE SYSTEM VIA POST) ---
         async function doLogin() {
-            if(isSimulation) {
-                // Bypass login di Mode Simulasi
-                document.getElementById('view-login').style.opacity = '0';
-                setTimeout(() => { document.getElementById('view-login').style.display = 'none'; loadData(); }, 300);
-                return;
-            }
-
-            // Meminta Kode Lisensi via Popup
             const { value: key } = await Swal.fire({
                 title: 'Aktivasi Lisensi',
                 input: 'text',
@@ -566,23 +656,24 @@
             if (key) {
                 startLoading();
                 try {
-                    // Validasi ke Backend menggunakan POST Request
                     const payload = { action: 'verifyLicense', licenseKey: key };
                     const response = await fetch(GAS_API_URL, {
-                        method: 'POST',
+                        method: 'POST', // WAJIB POST agar tidak error di Vercel
                         body: JSON.stringify(payload)
                     });
                     const res = await response.json();
                     
                     if(res.status === 'success') {
+                        isDemoMode = false;
                         currentLicenseKey = key;
-                        localStorage.setItem('dayzy_license', key); // Simpan sesi
+                        localStorage.setItem('dayzy_license', key);
                         document.getElementById('profile-license-id').innerText = `Lisensi: ${currentLicenseKey}`;
+                        updateAvatar(key);
                         
                         document.getElementById('view-login').style.opacity = '0';
                         setTimeout(() => { document.getElementById('view-login').style.display = 'none'; }, 300);
                         
-                        Swal.fire({icon: 'success', title: `Selamat datang!`, toast: true, position: 'top-end', showConfirmButton: false, timer: 1500});
+                        Swal.fire({icon: 'success', title: `Berhasil Masuk!`, text: `Hai ${res.customerName}`, toast: true, position: 'top-end', showConfirmButton: false, timer: 2000});
                         loadData();
                     } else {
                         throw new Error(res.message);
@@ -595,44 +686,26 @@
         }
 
         function logout() {
-            localStorage.removeItem('dayzy_license'); // Hapus sesi
+            localStorage.removeItem('dayzy_license');
             currentLicenseKey = "";
+            isDemoMode = false;
             document.getElementById('app-container').classList.add('d-none');
-            document.getElementById('view-login').style.display = 'flex';
-            document.getElementById('view-login').style.opacity = '1';
+            
+            // Kembalikan Landing Page
+            const landing = document.getElementById('view-login');
+            landing.style.display = 'flex';
+            setTimeout(() => { landing.style.opacity = '1'; }, 10);
+            
             Swal.fire({icon: 'success', title: 'Berhasil Keluar', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500});
         }
- // --- POLICIES ---
-function showPolicy() {
-    Swal.fire({
-        title: 'Kebijakan Privasi & ToS',
-        html: `
-            <div style="text-align: left; font-size: 0.9rem; max-height: 300px; overflow-y: auto;">
-                <p><strong>Selamat datang di Dayzy!</strong></p>
-                <p>Kami sangat menghargai privasi Anda. Sebagai jurnal digital, kami berkomitmen untuk:</p>
-                <ul>
-                    <li><strong>Privasi Mutlak:</strong> Isi jurnal Anda adalah hak milik pribadi. Kami tidak akan membaca, membagikan, atau menjual data Anda.</li>
-                    <li><strong>Keamanan Cloud:</strong> Dayzy menggunakan infrastruktur Google Cloud yang terenkripsi untuk menyimpan data Anda.</li>
-                    <li><strong>Penggunaan Wajar:</strong> Aplikasi ini ditujukan untuk refleksi pribadi dan pengembangan diri.</li>
-                    <li><strong>Tanggung Jawab:</strong> Sebagai penyedia SaaS, kami berusaha memberikan layanan 24/7, namun pengguna diharapkan tetap melakukan backup data secara berkala.</li>
-                </ul>
-                <p>Dengan menggunakan Dayzy, Anda setuju bahwa data yang Anda simpan adalah tanggung jawab pengguna. Dayzy tidak bertanggung jawab atas kebocoran data yang disebabkan oleh kelalaian pengguna dalam menjaga akun Google atau lisensi mereka.</p>
-            </div>
-        `,
-        confirmButtonText: 'Saya Mengerti',
-        confirmButtonColor: '#4a00e0',
-        customClass: {
-            popup: 'glass-card'
-        }
-    });
-}
+
         function toggleDarkMode() {
             const isDark = document.body.classList.toggle('dark-mode');
             document.getElementById('darkModeSwitch').checked = isDark;
             localStorage.setItem('dayzy_theme', isDark ? 'dark' : 'light');
         }
 
-        // --- DATA LOAD LOGIC (Fetch POST) ---
+        // --- DATA LOAD LOGIC ---
         function startLoading() {
             document.getElementById('loading-overlay').style.display = 'flex';
             setTimeout(() => document.getElementById('loading-overlay').style.opacity = '1', 10);
@@ -648,13 +721,17 @@ function showPolicy() {
 
         async function loadData() {
             startLoading();
-            if (isSimulation) {
-                // DUMMY DATA UNTUK MODE SIMULASI (Preview tanpa Vercel/GAS)
-                const dummyData = [{ID: "DIA-1", Date: "2026-06-25", Title: "Mode Simulasi", Mood: "🥰", Content: "Dayzy berjalan tanpa Backend API.", Tags: "test", Images: '[]', Timestamp: new Date().toISOString()}];
-                setTimeout(() => { db.diaries = JSON.parse(JSON.stringify(dummyData)); renderUI(); endLoading(); }, 1000);
+            
+            if (isDemoMode) {
+                // Tampilkan Data Bohongan untuk Marketing
+                setTimeout(() => { 
+                    db.diaries = JSON.parse(JSON.stringify(dummyData)); 
+                    renderUI(); 
+                    endLoading(); 
+                }, 1000);
             } else {
+                // Tampilkan Data Asli Berdasarkan Lisensi Pembeli
                 try {
-                    // Ambil data milik lisensi ini pakai POST Request
                     const payload = { action: 'getAllData', licenseKey: currentLicenseKey };
                     const response = await fetch(GAS_API_URL, {
                         method: 'POST',
@@ -669,7 +746,7 @@ function showPolicy() {
                         throw new Error(res.message);
                     }
                 } catch(err) {
-                    Swal.fire('Error API', 'Gagal memuat: ' + err.message, 'error');
+                    Swal.fire('Error API', 'Gagal memuat: Pastikan URL API sudah benar. ' + err.message, 'error');
                 } finally {
                     endLoading();
                 }
@@ -756,7 +833,7 @@ function showPolicy() {
                         canvas.width = width; canvas.height = height;
                         const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
                         
-                        const base64Pic = canvas.toDataURL('image/jpeg', 0.7); // Kompresi foto jurnal
+                        const base64Pic = canvas.toDataURL('image/jpeg', 0.7); 
                         document.getElementById('preview-img').src = base64Pic;
                         document.getElementById('diary-photo-preview').classList.remove('d-none');
                         document.getElementById('input-base64-image').value = base64Pic;
@@ -790,16 +867,15 @@ function showPolicy() {
                 images: imagesArray 
             };
 
-            if (isSimulation) {
+            if (isDemoMode) {
                 setTimeout(() => {
-                    db.diaries.unshift({ ID: "DIA-" + new Date().getTime(), LicenseKey: "SIMULATION", Date: newData.date, Title: newData.title, Mood: newData.mood, Content: newData.content, Tags: newData.tags, Images: JSON.stringify(newData.images), Timestamp: new Date().toISOString() });
-                    renderUI(); Swal.fire({icon: 'success', title: 'Tersimpan!', showConfirmButton: false, timer: 1500, toast: true, position: 'top-end'});
+                    db.diaries.unshift({ ID: "DIA-" + new Date().getTime(), LicenseKey: "DEMO", Date: newData.date, Title: newData.title, Mood: newData.mood, Content: newData.content, Tags: newData.tags, Images: JSON.stringify(newData.images), Timestamp: new Date().toISOString() });
+                    renderUI(); Swal.fire({icon: 'success', title: 'Tersimpan!', text:'(Hanya tersimpan di memori saat mode Demo)', showConfirmButton: false, timer: 2000, toast: true, position: 'top-end'});
                     document.getElementById('form-diary').reset(); removeDiaryPhoto();
                     btnSubmit.innerHTML = `Simpan Cerita 🎀`; btnSubmit.disabled = false; switchTab('home');
                 }, 1000);
             } else {
                 try {
-                    // Simpan data pakai POST Request & License Key
                     const payload = { action: 'saveDiary', licenseKey: currentLicenseKey, payload: newData };
                     const response = await fetch(GAS_API_URL, {
                         method: 'POST',
